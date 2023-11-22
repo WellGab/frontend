@@ -1,14 +1,12 @@
 "use client";
-import LogoGreen from "@/components/icons/logo-green";
+import Hero from "@/components/hero";
+import NavBar from "@/components/navbar";
+import { isDark } from "@/utils";
 import React from "react";
 
 export default function Home() {
   React.useEffect(() => {
-    if (
-      localStorage.theme === "dark" ||
-      (!("theme" in localStorage) &&
-        window.matchMedia("(prefers-color-scheme: dark)").matches)
-    ) {
+    if (isDark()) {
       document.documentElement.classList.add("dark");
     } else {
       document.documentElement.classList.remove("dark");
@@ -17,12 +15,11 @@ export default function Home() {
   const toggleTheme = () => {
     if (window !== undefined) {
       if (localStorage.theme == "dark") {
-        console.log("yeah");
         localStorage.theme = "light";
-        document.documentElement.classList.add("dark");
+        document.documentElement.classList.remove("dark");
       } else {
         localStorage.theme = "dark";
-        document.documentElement.classList.remove("dark");
+        document.documentElement.classList.add("dark");
       }
     }
   };
@@ -33,20 +30,17 @@ export default function Home() {
     }
   };
   return (
-    <main className=" font-bold text-5xl text-[#078] flex items-center justify-center min-h-screen font-mono dark:bg-black">
+    <main className=" min-h-screen  text-primary">
       <p
-        className=" text-black dark:text-white font-bold text-lg fixed top-10 right-10"
+        className=" text-black dark:text-white font-bold text-lg fixed bottom-5 right-10 cursor-pointer z-[1]"
         onClick={() => toggleTheme()}
       >
-        Toggle Theme
+        Toggle
       </p>
-      <p
-        className=" text-black dark:text-white font-bold text-lg fixed top-14 right-10"
-        onClick={() => system()}
-      >
-        System
-      </p>
-      WellGab <LogoGreen />
+
+      <NavBar />
+      <Hero />
+      <div className=" bg-[#F7F7F7] dark:bg-[#0F0F0F] h-[20vh]"></div>
     </main>
   );
 }

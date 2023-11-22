@@ -13,9 +13,14 @@ const config: Config = {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+        "hero-gradient":
+          "radial-gradient(70.71% 70.71% at 50% 50%, #FFF 0%, rgba(255, 255, 255, 0.43) 100%)",
       },
       colors: {
         "wellgab-green": "#078",
+      },
+      fontFamily: {
+        workSans: ["Work Sans", "sans-serif"],
       },
     },
   },
