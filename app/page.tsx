@@ -1,5 +1,8 @@
 "use client";
+import Experiencing from "@/components/experiencing";
+import Hear from "@/components/hear";
 import Hero from "@/components/hero";
+import HowItWorks from "@/components/how-it-works";
 import NavBar from "@/components/navbar";
 import { isDark } from "@/utils";
 import React from "react";
@@ -40,7 +43,9 @@ export default function Home() {
 
       <NavBar />
       <Hero />
-      <div className=" bg-[#F7F7F7] dark:bg-[#0F0F0F] h-[20vh]"></div>
+      <HowItWorks />
+      <Experiencing />
+      <Hear />
     </main>
   );
 }

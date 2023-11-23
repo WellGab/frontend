@@ -5,13 +5,13 @@ import Image from "next/image";
 
 const Hero = () => {
   return (
-    <div className=" py-[100px] bg-[#F5FAFA] dark:bg-[#202124] h-[855px] text-center relative">
+    <section className=" py-[100px] bg-[#F5FAFA] dark:bg-[#202124] h-[955px] text-center relative font-plusJakartaSans">
       <div className=" text-[64px] font-medium  text-center">
         <h1 className=" flex items-center gap-x-[139px] justify-center  relative w-max mx-auto">
           <span className=" dark:text-transparent bg-clip-text bg-hero-gradient">
             Your
           </span>
-          <div className=" absolute right-[225px]">
+          <div className=" absolute right-[240px]">
             <Image priority src={AI} alt="ai" />
           </div>
 
@@ -31,10 +31,10 @@ const Hero = () => {
         TRY WELLGAB FOR FREE
       </button>
 
-      <div className=" mx-auto flex justify-center mt-10 absolute w-full">
+      <div className=" mx-auto flex justify-center -bottom-14  absolute w-full">
         <Image src={HeroImg} alt="hero image" className="w-[50%] " />
       </div>
-    </div>
+    </section>
   );
 };
 

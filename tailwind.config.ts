@@ -15,15 +15,18 @@ const config: Config = {
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
         "hero-gradient":
           "radial-gradient(70.71% 70.71% at 50% 50%, #FFF 0%, rgba(255, 255, 255, 0.43) 100%)",
+        "bg-exp1": "url('../assets/imgs/exp1.png')",
       },
       colors: {
         "wellgab-green": "#078",
       },
       fontFamily: {
-        workSans: ["Work Sans", "sans-serif"],
+        workSans: ["Work Sans"],
+        plusJakartaSans: ["Plus Jakarta Sans"],
+        inter: ["Inter"],
       },
     },
   },
-  plugins: [],
+  plugins: [require("tailwind-scrollbar-hide")],
 };
 export default config;

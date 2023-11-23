@@ -3,7 +3,7 @@ import Logo from "../icons/logo";
 
 const NavBar = () => {
   return (
-    <div className=" bg-white dark:bg-[#0F0F0F] py-4 px-[100px] flex justify-between">
+    <nav className=" bg-white dark:bg-[#0F0F0F] py-4 px-[100px] flex justify-between">
       <div className=" flex items-center gap-x-2 cursor-pointer">
         <Logo /> <span className="text-[#078] dark:text-white">WellGab</span>
       </div>
@@ -16,7 +16,7 @@ const NavBar = () => {
       <button className="bg-[#078] font-sans text-sm xl:text-lg rounded-lg px-6 text-white">
         Get Started
       </button>
-    </div>
+    </nav>
   );
 };
 
