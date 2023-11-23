@@ -1,11 +1,22 @@
+"use client";
 import CenteredPage from "@/components/CenterContainer";
 import NavBar from "@/components/navbar";
 import Google from "@/assets/svgs/Google svg.svg";
 import Microsoft from "@/assets/svgs/Microsoft svg.svg";
 import Apple from "@/assets/svgs/Apple svg.svg";
 import Image from "next/image";
+import { redirect, useRouter } from "next/navigation";
+import { useUser } from "@auth0/nextjs-auth0/client";
 
 export default function Page() {
+  const router = useRouter();
+  const { user, error, isLoading } = useUser();
+
+  function auth0Socials() {
+    // redirect to /api/auth/Login
+    return () => router.push("/api/auth/login");
+  }
+
   return (
     <main>
       <NavBar />
@@ -76,19 +87,30 @@ export default function Page() {
               </div>
 
               <div className="flex flex-col items-center justify-center gap-4 my-4">
-                <button className="border-[0.3px] border-wellgab-black-2 rounded-lg py-2 px-6 dark:text-white dark:bg-wellgab-black-3 text-wellgab-black-1 text-lg text-left font-normal w-full hover:text-grey-800 hover:border-0 focus:text-grey-100 flex gap-4 items-center">
+                <button
+                  type="button"
+                  onClick={() => auth0Socials()}
+                  className="border-[0.3px] border-wellgab-black-2 rounded-lg py-2 px-6 dark:text-white dark:bg-wellgab-black-3 text-wellgab-black-1 text-lg text-left font-normal w-full hover:text-grey-800 hover:border-0 focus:text-grey-100 flex gap-4 items-center"
+                >
                   <Image priority src={Google} alt="Google sign in button" />
                   Continue with Google
                 </button>
-                <button className="border-[0.3px] border-wellgab-black-2 rounded-lg py-2 px-6 dark:text-white dark:bg-wellgab-black-3 text-wellgab-black-1 text-lg text-left font-normal w-full hover:text-grey-800 hover:border-0 focus:text-grey-100 flex gap-4 items-center">
+                <a
+                  href="/api/auth/login"
+                  className="border-[0.3px] border-wellgab-black-2 rounded-lg py-2 px-6 dark:text-white dark:bg-wellgab-black-3 text-wellgab-black-1 text-lg text-left font-normal w-full hover:text-grey-800 hover:border-0 focus:text-grey-100 flex gap-4 items-center"
+                >
                   <Image
                     priority
                     src={Microsoft}
                     alt="Microsoft sign in button"
                   />
                   Continue with Microsoft
-                </button>
-                <button className="border-[0.3px] border-wellgab-black-2 rounded-lg py-2 px-6 dark:text-white dark:bg-wellgab-black-3 text-wellgab-black-1 text-lg text-left font-normal w-full hover:text-grey-800 hover:border-0 focus:text-grey-100 flex gap-4 items-center">
+                </a>
+                <button
+                  type="button"
+                  onClick={() => auth0Socials()}
+                  className="border-[0.3px] border-wellgab-black-2 rounded-lg py-2 px-6 dark:text-white dark:bg-wellgab-black-3 text-wellgab-black-1 text-lg text-left font-normal w-full hover:text-grey-800 hover:border-0 focus:text-grey-100 flex gap-4 items-center"
+                >
                   <Image priority src={Apple} alt="Apple sign in button" />
                   Continue with Apple
                 </button>

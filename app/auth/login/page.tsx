@@ -1,11 +1,22 @@
+"use client";
 import CenteredPage from "@/components/CenterContainer";
 import NavBar from "@/components/navbar";
 import Google from "@/assets/svgs/Google svg.svg";
 import Microsoft from "@/assets/svgs/Microsoft svg.svg";
 import Apple from "@/assets/svgs/Apple svg.svg";
 import Image from "next/image";
+import { redirect, useRouter } from "next/navigation";
+import { useUser } from "@auth0/nextjs-auth0/client";
 
 export default function Page() {
+  const router = useRouter();
+  const { user, error, isLoading } = useUser();
+
+  function useAuth0() {
+    // redirect to /api/auth/Login
+    return () => router.push("/api/auth/login");
+  }
+
   return (
     <main>
       <NavBar />
