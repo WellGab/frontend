@@ -4,6 +4,7 @@ import "./globals.css";
 import Providers from "./providers";
 import React from "react";
 import { ThemeProvider } from "./theme-provider";
+import { ThemeSwitcher } from "@/components/button/ThemeSwitcher";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,7 +22,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <ThemeSwitcher />
           <Providers>{children}</Providers>
+        </ThemeProvider>
       </body>
     </html>
   );

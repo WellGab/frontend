@@ -16,12 +16,15 @@ const config: Config = {
         "hero-gradient":
           "radial-gradient(70.71% 70.71% at 50% 50%, #FFF 0%, rgba(255, 255, 255, 0.43) 100%)",
         "bg-exp1": "url('../assets/imgs/exp1.png')",
+        "bg-text": "radial-gradient(70.71% 70.71% at 50% 50%, rgba(255, 255, 255, 0.90) 0%, rgba(255, 255, 255, 0.45) 100%)"
       },
       colors: {
         "wellgab-green": "#078",
         "wellgab-black-1": "#191919",
         "wellgab-black-2": "#4C4C4C",
+        "wellgab-black-3": "#24252B",
         "wellgab-white-1": "#F1F3F6",
+        "wellgab-white-2": "#b4b4b4",
       },
       fontFamily: {
         workSans: ["Work Sans"],
