@@ -7,6 +7,7 @@ import Apple from "@/assets/svgs/Apple svg.svg";
 import Image from "next/image";
 import { redirect, useRouter } from "next/navigation";
 import { useUser } from "@auth0/nextjs-auth0/client";
+import { socials } from "@/utils/constants";
 
 export default function Page() {
   const router = useRouter();
@@ -71,22 +72,31 @@ export default function Page() {
               </div>
 
               <div className="flex flex-col items-center justify-center gap-4 my-4">
-                <button className="border-[0.3px] border-wellgab-black-2 rounded-lg py-2 px-7 dark:text-white dark:bg-wellgab-black-3 text-wellgab-black-1 text-lg text-left font-normal w-full hover:text-grey-800 hover:border-0 focus:text-grey-100 flex gap-4">
+                <a
+                  href={`/api/auth/login?connection=${socials.google}`}
+                  className="border-[0.3px] border-wellgab-black-2 rounded-lg py-2 px-7 dark:text-white dark:bg-wellgab-black-3 text-wellgab-black-1 text-lg text-left font-normal w-full hover:text-grey-800 hover:border-0 focus:text-grey-100 flex gap-4"
+                >
                   <Image priority src={Google} alt="Google sign in button" />
                   Continue with Google
-                </button>
-                <button className="border-[0.3px] border-wellgab-black-2 rounded-lg py-2 px-6 dark:text-white dark:bg-wellgab-black-3 text-wellgab-black-1 text-lg text-left font-normal w-full hover:text-grey-800 hover:border-0 focus:text-grey-100 flex gap-4">
+                </a>
+                <a
+                  href={`/api/auth/login?connection=${socials.windows}`}
+                  className="border-[0.3px] border-wellgab-black-2 rounded-lg py-2 px-6 dark:text-white dark:bg-wellgab-black-3 text-wellgab-black-1 text-lg text-left font-normal w-full hover:text-grey-800 hover:border-0 focus:text-grey-100 flex gap-4"
+                >
                   <Image
                     priority
                     src={Microsoft}
                     alt="Microsoft sign in button"
                   />
                   Continue with Microsoft
-                </button>
-                <button className="border-[0.3px] border-wellgab-black-2 rounded-lg py-2 px-6 dark:text-white dark:bg-wellgab-black-3 text-wellgab-black-1 text-lg text-left font-normal w-full hover:text-grey-800 hover:border-0 focus:text-grey-100 flex gap-4 items-center">
+                </a>
+                <a
+                  href={`/api/auth/login?connection=${socials.apple}`}
+                  className="border-[0.3px] border-wellgab-black-2 rounded-lg py-2 px-6 dark:text-white dark:bg-wellgab-black-3 text-wellgab-black-1 text-lg text-left font-normal w-full hover:text-grey-800 hover:border-0 focus:text-grey-100 flex gap-4 items-center"
+                >
                   <Image priority src={Apple} alt="Apple sign in button" />
                   Continue with Apple
-                </button>
+                </a>
                 <button className="rounded-lg bg-wellgab-green py-2 px-6 dark:text-white text-wellgab-white-1 text-lg text-center font-normal w-full hover:text-black focus:text-black">
                   Login
                 </button>
