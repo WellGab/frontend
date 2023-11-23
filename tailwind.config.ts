@@ -19,6 +19,9 @@ const config: Config = {
       },
       colors: {
         "wellgab-green": "#078",
+        "wellgab-black-1": "#191919",
+        "wellgab-black-2": "#4C4C4C",
+        "wellgab-white-1": "#F1F3F6",
       },
       fontFamily: {
         workSans: ["Work Sans"],
