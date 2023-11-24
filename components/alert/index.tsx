@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-// create an alert component using tailwindcss for nextjs 13, it should have different colours for warning, success, danger, info and allow props to be passed for messages, a way to close it and the type of warning it is
 
 interface AlertProps {
   message: string;

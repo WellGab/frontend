@@ -26,6 +26,7 @@ const config: Config = {
         "wellgab-black-1": "#191919",
         "wellgab-black-2": "#4C4C4C",
         "wellgab-black-3": "#24252B",
+        "wellgab-black-4": "#0F0F0F",
         "wellgab-white-1": "#F1F3F6",
         "wellgab-white-2": "#b4b4b4",
         "button-nav": "rgba(0, 119, 136, 0.20)",
