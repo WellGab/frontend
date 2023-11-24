@@ -1,9 +1,12 @@
 "use client";
 import Experiencing from "@/components/experiencing";
+import Footer from "@/components/footer";
 import Hear from "@/components/hear";
 import Hero from "@/components/hero";
 import HowItWorks from "@/components/how-it-works";
 import NavBar from "@/components/navbar";
+import Subscribe from "@/components/subscribe";
+import Utilize from "@/components/utitlize";
 import { isDark } from "@/utils";
 import { useUser } from "@auth0/nextjs-auth0/client";
 
@@ -44,18 +47,14 @@ export default function Home() {
 
   return (
     <main className=" min-h-screen  text-primary">
-      <p
-        className=" text-black dark:text-white font-bold text-lg fixed bottom-5 right-10 cursor-pointer z-[1]"
-        onClick={() => x()}
-      >
-        Toggle
-      </p>
-
       <NavBar />
       <Hero />
       <HowItWorks />
       <Experiencing />
       <Hear />
+      <Utilize />
+      <Subscribe />
+      <Footer />
     </main>
   );
 }

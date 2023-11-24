@@ -54,8 +54,8 @@ const Hear = () => {
       <p className="text-[#4C4C4C] dark:text-[#B4B4B4] mt-4 text-center">
         Hear what they had to say about WellGab
       </p>
-      <div className=" mt-8 px-[6.25rem]">
-        <div className="w-full flex justify-end gap-x-10">
+      <div className=" mt-8 px-8 xl:px-[6.25rem]">
+        <div className="w-full justify-end gap-x-10 hidden lg:flex">
           <div
             className="bg-[#078] rounded-full w-[68px] h-[68px] flex items-center justify-center mon-hover"
             onClick={() => scrollLeft()}
@@ -77,7 +77,7 @@ const Hear = () => {
             {contents.map((item) => (
               <div
                 key={item.name}
-                className=" rounded-lg bg-white dark:bg-[#0F0F0F] py-8 px-6 w-[30rem]"
+                className=" rounded-lg bg-white dark:bg-[#0F0F0F] py-8 px-6 w-[25rem] lg:w-[30rem]"
               >
                 <p className=" text-[#078] dark:text-[#B4B4B4] text-5xl font-inter">
                   “

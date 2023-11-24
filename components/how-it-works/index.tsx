@@ -27,7 +27,7 @@ const HowItWorks = () => {
         How it works
       </h2>
 
-      <div className=" grid grid-flow-col grid-cols-3 mt-14 px-[6.25rem] gap-x-10">
+      <div className=" grid  md:grid-cols-2 lg:grid-cols-3 mt-14 px-8 xl:px-[6.25rem] gap-x-10 gap-y-10">
         {contents.map((content) => (
           <div
             key={content.no}
@@ -36,10 +36,10 @@ const HowItWorks = () => {
             <div className=" w-[68px] h-[68px] rounded-full flex items-center justify-center bg-[#078] text-[28px] font-plusJakartaSans text-white mx-auto font-bold">
               {content.no}
             </div>
-            <p className=" mt-8 bg-hero-gradient dark:text-transparent bg-clip-text text-[28px] text-center">
+            <p className=" mt-8 bg-hero-gradient dark:text-transparent bg-clip-text text-2xl xl:text-[28px] text-center">
               {content.text}
             </p>
-            <p className=" mt-4 text-[#4C4C4C] dark:text-[#B4B4B4] text-xl">
+            <p className=" mt-4 text-[#4C4C4C] dark:text-[#B4B4B4] text-base xl:text-xl">
               {content.subtext}
             </p>
           </div>
