@@ -10,13 +10,13 @@ import { socials } from "@/utils/constants";
 import { useEffect, useState } from "react";
 import { signupSchema } from "@/utils/validation/auth.zod";
 import Alert from "@/components/alert";
-import $http from "@/http/fetcher";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { useLogin } from "@/hook/auth.hook";
 
 export default function Page() {
   const { user, error, isLoading: auth0Loading } = useUser();
+  const { mutate, isLoading } = useLogin();
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -24,7 +24,6 @@ export default function Page() {
   const [showPasswd, setShowPasswd] = useState(false);
   const [message, setMessage] = useState("");
   const [type, setType] = useState("password");
-  const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
     if (!error && !auth0Loading && user) router.push("/signed/chat");
@@ -33,7 +32,6 @@ export default function Page() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setLoading(true);
 
     // validate
     const validated = await signupSchema.safeParseAsync({
@@ -44,22 +42,16 @@ export default function Page() {
     if (!validated.success) {
       setShow(true);
       setMessage(validated.error.message);
-      setLoading(false);
       return;
     }
 
     // send to api
     setMessage("");
     try {
-      const data = await $http.post("/api/v1/auth/login", validated.data);
-      localStorage.setItem("token", JSON.stringify(data.data.data));
-      setLoading(false);
-      toast.success(data.data.message);
-      router.push("/signed/chat");
+      mutate(validated.data);
     } catch (err: any) {
       setMessage(err?.response?.data?.detail ?? err.message);
       setShow(true);
-      setLoading(false);
     }
   };
 
