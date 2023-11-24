@@ -6,6 +6,7 @@ import React from "react";
 import { ThemeProvider } from "./theme-provider";
 import { ThemeSwitcher } from "@/components/button/ThemeSwitcher";
 import { UserProvider } from "@auth0/nextjs-auth0/client";
+import { Toaster } from "react-hot-toast";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -28,6 +29,7 @@ export default function RootLayout({
             <ThemeSwitcher />
             <Providers>{children}</Providers>
           </ThemeProvider>
+          <Toaster />
         </body>
       </UserProvider>
     </html>

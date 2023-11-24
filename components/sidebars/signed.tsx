@@ -1,5 +1,5 @@
 import React from "react";
 
-export default function Signed() {
-  return <div>signed</div>;
+export default function SignedSidebar() {
+  return <section className="flex-1">signed bar</section>;
 }

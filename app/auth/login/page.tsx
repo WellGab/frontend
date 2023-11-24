@@ -5,17 +5,67 @@ import Google from "@/assets/svgs/Google svg.svg";
 import Microsoft from "@/assets/svgs/Microsoft svg.svg";
 import Apple from "@/assets/svgs/Apple svg.svg";
 import Image from "next/image";
-import { redirect, useRouter } from "next/navigation";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { socials } from "@/utils/constants";
+import { useEffect, useState } from "react";
+import { signupSchema } from "@/utils/validation/auth.zod";
+import Alert from "@/components/alert";
+import $http from "@/http/fetcher";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { toast } from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 export default function Page() {
+  const { user, error, isLoading: auth0Loading } = useUser();
   const router = useRouter();
-  const { user, error, isLoading } = useUser();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [show, setShow] = useState(false);
+  const [showPasswd, setShowPasswd] = useState(false);
+  const [message, setMessage] = useState("");
+  const [type, setType] = useState("password");
+  const [isLoading, setLoading] = useState(false);
 
-  function useAuth0() {
-    // redirect to /api/auth/Login
-    return () => router.push("/api/auth/login");
+  useEffect(() => {
+    if (!error && !auth0Loading && user) router.push("/signed/chat");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user, error, auth0Loading]);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoading(true);
+
+    // validate
+    const validated = await signupSchema.safeParseAsync({
+      email,
+      password,
+    });
+
+    if (!validated.success) {
+      setShow(true);
+      setMessage(validated.error.message);
+      setLoading(false);
+      return;
+    }
+
+    // send to api
+    setMessage("");
+    try {
+      const data = await $http.post("/api/v1/auth/login", validated.data);
+      localStorage.setItem("token", JSON.stringify(data.data.data));
+      setLoading(false);
+      toast.success(data.data.message);
+      router.push("/signed/chat");
+    } catch (err: any) {
+      setMessage(err?.response?.data?.detail ?? err.message);
+      setShow(true);
+      setLoading(false);
+    }
+  };
+
+  function revealPasswd() {
+    setShowPasswd((prev) => !prev);
+    setType((prev) => (prev === "password" ? "text" : "password"));
   }
 
   return (
@@ -34,7 +84,16 @@ export default function Page() {
           </div>
 
           <div className="mt-[32px]">
-            <form>
+            {show ? (
+              <Alert
+                message={message}
+                type="warning"
+                header="Validation Error"
+                show={show}
+                setShow={setShow}
+              />
+            ) : null}
+            <form onSubmit={handleSubmit}>
               <div className="mb-4">
                 <label
                   htmlFor="email"
@@ -48,6 +107,8 @@ export default function Page() {
                   id="email"
                   className="rounded-lg border-wellgab-black-2 border-[0.5px] bg-transparent block p-2 text-base text-wellgab-black-2 font-normal w-full outline-transparent"
                   placeholder="Enter your email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
               <div>
@@ -57,13 +118,29 @@ export default function Page() {
                 >
                   Password
                 </label>
-                <input
-                  type="password"
-                  name="password"
-                  id="password"
-                  placeholder="*********"
-                  className="rounded-lg border-wellgab-black-2 border-[0.5px] bg-transparent block p-2 text-base text-wellgab-black-2 font-normal w-full outline-transparent"
-                />
+                <div className="relative">
+                  <input
+                    type={type}
+                    name="password"
+                    id="password"
+                    required
+                    placeholder="*********"
+                    className="rounded-lg border-wellgab-black-2 border-[0.5px] bg-transparent block p-2 text-base text-wellgab-black-2 font-normal w-full"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                  <span className="absolute right-[10px] top-[10px]">
+                    {showPasswd ? (
+                      <span onClick={revealPasswd}>
+                        <FaEye />
+                      </span>
+                    ) : (
+                      <span onClick={revealPasswd}>
+                        <FaEyeSlash />
+                      </span>
+                    )}
+                  </span>
+                </div>
               </div>
               <div className="flex items-center justify-center my-8">
                 <div className="border-t border-gray-500 w-full"></div>
@@ -97,7 +174,10 @@ export default function Page() {
                   <Image priority src={Apple} alt="Apple sign in button" />
                   Continue with Apple
                 </a>
-                <button className="rounded-lg bg-wellgab-green py-2 px-6 dark:text-white text-wellgab-white-1 text-lg text-center font-normal w-full hover:text-black focus:text-black">
+                <button
+                  disabled={isLoading}
+                  className="rounded-lg bg-wellgab-green py-2 px-6 dark:text-white text-wellgab-white-1 text-lg text-center font-normal w-full hover:text-black focus:text-black"
+                >
                   Login
                 </button>
               </div>
