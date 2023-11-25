@@ -9,7 +9,9 @@ const Footer = () => {
       <Link href={"/"}>
         <div className=" flex items-center gap-x-2">
           <Logo />{" "}
-          <span className=" font-inter font-bold text-[#078]">WellGab</span>
+          <span className=" font-inter font-bold text-[#078] dark:text-white">
+            WellGab
+          </span>
         </div>
       </Link>
       <div className=" text-sm font-plusJakartaSans flex gap-x-5 items-center">

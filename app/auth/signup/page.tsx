@@ -125,7 +125,7 @@ export default function Page() {
                     name="password"
                     id="password"
                     required
-                    placeholder="*********"
+                    placeholder="Enter your Password"
                     className="rounded-lg border-wellgab-black-2 border-[0.5px] bg-transparent block p-2 text-base text-wellgab-black-2 font-normal w-full"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
@@ -153,14 +153,14 @@ export default function Page() {
               <div className="flex flex-col items-center justify-center gap-4 my-4">
                 <a
                   href={`/api/auth/login?connection=${socials.google}&returnTo=/auth/social`}
-                  className="border-[0.3px] border-wellgab-black-2 rounded-lg py-2 px-6 dark:text-white dark:bg-wellgab-black-3 text-wellgab-black-1 text-lg text-left font-normal w-full hover:text-grey-800 hover:border-0 focus:text-grey-100 flex gap-4 items-center"
+                  className="border-[0.3px] border-wellgab-black-2 rounded-lg py-2 px-6 dark:text-white dark:bg-wellgab-black-3 text-wellgab-black-1 text-lg text-left font-normal w-full hover:text-grey-800 hover:scale-105 transition focus:text-grey-100 flex gap-4"
                 >
                   <Image priority src={Google} alt="Google sign in button" />
                   Continue with Google
                 </a>
                 <a
                   href={`/api/auth/login?connection=${socials.windows}&returnTo=/auth/social`}
-                  className="border-[0.3px] border-wellgab-black-2 rounded-lg py-2 px-6 dark:text-white dark:bg-wellgab-black-3 text-wellgab-black-1 text-lg text-left font-normal w-full hover:text-grey-800 hover:border-0 focus:text-grey-100 flex gap-4 items-center"
+                  className="border-[0.3px] border-wellgab-black-2 rounded-lg py-2 px-6 dark:text-white dark:bg-wellgab-black-3 text-wellgab-black-1 text-lg text-left font-normal w-full hover:text-grey-800 hover:scale-105 transition focus:text-grey-100 flex gap-4"
                 >
                   <Image
                     priority
@@ -171,14 +171,14 @@ export default function Page() {
                 </a>
                 <a
                   href={`/api/auth/login?connection=${socials.apple}&returnTo=/auth/social`}
-                  className="border-[0.3px] border-wellgab-black-2 rounded-lg py-2 px-6 dark:text-white dark:bg-wellgab-black-3 text-wellgab-black-1 text-lg text-left font-normal w-full hover:text-grey-800 hover:border-0 focus:text-grey-100 flex gap-4 items-center"
+                  className="border-[0.3px] border-wellgab-black-2 rounded-lg py-2 px-6 dark:text-white dark:bg-wellgab-black-3 text-wellgab-black-1 text-lg text-left font-normal w-full hover:text-grey-800 hover:scale-105 transition focus:text-grey-100 flex gap-4"
                 >
                   <Image priority src={Apple} alt="Apple sign in button" />
                   Continue with Apple
                 </a>
                 <button
                   disabled={isLoading}
-                  className="rounded-lg bg-wellgab-green py-2 px-6 dark:text-white text-wellgab-white-1 text-lg text-center font-normal w-full hover:text-black focus:text-black"
+                  className="rounded-lg bg-wellgab-green py-2 px-6 dark:text-white text-wellgab-white-1 text-lg text-center font-normal w-full hover:scale-105 transition"
                 >
                   {isLoading ? "loading..." : "Sign up"}
                 </button>
