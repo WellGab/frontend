@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import Logo from "../icons/logo";
 import Image from "next/image";
@@ -9,6 +10,10 @@ import Logout from "../../assets/svgs/logout2.svg";
 import { IconContext } from "react-icons";
 
 export default function SignedSidebar() {
+  const logout = () => {
+    window.location.href = "/api/auth/logout";
+    localStorage.removeItem("token");
+  };
   return (
     <section className="flex-1 h-screen dark:bg-wellgab-black-4 bg-white py-5 px-7">
       <div className="flex flex-row items-center justify-center">
@@ -36,7 +41,10 @@ export default function SignedSidebar() {
             <Image src={Setting} alt="setting icon" className="" />
             <span className="flex-[2]">Settings</span>
           </div>
-          <div className="flex flex-row gap-3 item-center py-3 mb-3 hover:bg-wellgab-black-1 cursor-pointer">
+          <div
+            className="flex flex-row gap-3 item-center py-3 mb-3 hover:bg-wellgab-black-1 cursor-pointer"
+            onClick={() => logout()}
+          >
             <Image src={Logout} alt="Logout icon" className="" />
             <span className="flex-[2]">Logout</span>
           </div>

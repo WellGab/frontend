@@ -9,6 +9,12 @@ export const signupSchema = z.object({
 
 export type signupType = z.infer<typeof signupSchema>;
 
+export const socialAuthSchema = z.object({
+  token: z.string(),
+});
+
+export type socialAuthType = z.infer<typeof socialAuthSchema>;
+
 export const forgotPasswordSchema = z.object({
   email: z.string().email(),
 });

@@ -25,10 +25,10 @@ export default function Page() {
   const [message, setMessage] = useState("");
   const [type, setType] = useState("password");
 
-  useEffect(() => {
-    if (!error && !auth0Loading && user) router.push("/signed/chat");
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user, error, auth0Loading]);
+  // useEffect(() => {
+  //   if (!error && !auth0Loading && user) router.push("/signed/chat");
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [user, error, auth0Loading]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -116,7 +116,7 @@ export default function Page() {
                     name="password"
                     id="password"
                     required
-                    placeholder="*********"
+                    placeholder="Enter your Password"
                     className="rounded-lg border-wellgab-black-2 border-[0.5px] bg-transparent block p-2 text-base text-wellgab-black-2 font-normal w-full"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
@@ -142,14 +142,14 @@ export default function Page() {
 
               <div className="flex flex-col items-center justify-center gap-4 my-4">
                 <a
-                  href={`/api/auth/login?connection=${socials.google}`}
+                  href={`/api/auth/login?connection=${socials.google}&returnTo=/auth/social`}
                   className="border-[0.3px] border-wellgab-black-2 rounded-lg py-2 px-7 dark:text-white dark:bg-wellgab-black-3 text-wellgab-black-1 text-lg text-left font-normal w-full hover:text-grey-800 hover:border-0 focus:text-grey-100 flex gap-4"
                 >
                   <Image priority src={Google} alt="Google sign in button" />
                   Continue with Google
                 </a>
                 <a
-                  href={`/api/auth/login?connection=${socials.windows}`}
+                  href={`/api/auth/login?connection=${socials.windows}&returnTo=/auth/social`}
                   className="border-[0.3px] border-wellgab-black-2 rounded-lg py-2 px-6 dark:text-white dark:bg-wellgab-black-3 text-wellgab-black-1 text-lg text-left font-normal w-full hover:text-grey-800 hover:border-0 focus:text-grey-100 flex gap-4"
                 >
                   <Image
@@ -160,7 +160,7 @@ export default function Page() {
                   Continue with Microsoft
                 </a>
                 <a
-                  href={`/api/auth/login?connection=${socials.apple}`}
+                  href={`/api/auth/login?connection=${socials.apple}&returnTo=/auth/social`}
                   className="border-[0.3px] border-wellgab-black-2 rounded-lg py-2 px-6 dark:text-white dark:bg-wellgab-black-3 text-wellgab-black-1 text-lg text-left font-normal w-full hover:text-grey-800 hover:border-0 focus:text-grey-100 flex gap-4 items-center"
                 >
                   <Image priority src={Apple} alt="Apple sign in button" />

@@ -2,23 +2,23 @@
 import Logo from "@/components/icons/logo";
 import SignedSidebar from "@/components/sidebars/signed";
 import React from "react";
-import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
-
+// import SpeechRecognition, {
+//   useSpeechRecognition,
+// } from "react-speech-recognition";
 
 export default function Page() {
-  const [search, setSearch] = React.useState<string>("")
-  const {
-    transcript,
-    listening,
-    resetTranscript,
-    browserSupportsSpeechRecognition
-  } = useSpeechRecognition();
-  
+  const [search, setSearch] = React.useState<string>("");
+  // const {
+  //   transcript,
+  //   listening,
+  //   resetTranscript,
+  //   browserSupportsSpeechRecognition
+  // } = useSpeechRecognition();
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+  };
 
-  }
-  
   return (
     <main className="flex flex-row gap-4">
       <SignedSidebar />
