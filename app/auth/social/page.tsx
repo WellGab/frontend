@@ -1,4 +1,5 @@
 "use client";
+import { PageLoader } from "@/components/loader";
 import { useSocialAuth } from "@/hook/auth.hook";
 import { fetcher } from "@/http/fetcher";
 import { useRouter } from "next/navigation";
@@ -19,8 +20,8 @@ const Page = () => {
         });
       }
     })();
-  }, []);
-  return <div>Page</div>;
+  }, []); // eslint-disable-line
+  return <PageLoader />;
 };
 
 export default Page;

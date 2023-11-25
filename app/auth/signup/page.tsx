@@ -13,6 +13,7 @@ import Alert from "@/components/alert";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { useSignup } from "@/hook/auth.hook";
+import { PageLoader } from "@/components/loader";
 // import type { Metadata } from "next";
 
 // export const metadata: Metadata = {
@@ -68,6 +69,7 @@ export default function Page() {
 
   return (
     <main>
+      {isLoading ? <PageLoader /> : null}
       <NavBar />
       <CenteredPage>
         <div className="md:w-[500px] w-[300px]">

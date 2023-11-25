@@ -42,3 +42,8 @@ body {
     @apply lg:hover:opacity-40 transition ease-in-out duration-200 cursor-pointer;
   }
 }
+
+
+.well-gab-spinner circle{
+  fill: #078;
+}

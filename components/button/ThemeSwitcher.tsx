@@ -18,7 +18,7 @@ export const ThemeSwitcher = () => {
 
   return (
     <button
-      className={`w-fit fixed z-10 right-5 top-5 lg:top-2 hover:scale-110 active:scale-100 duration-200`}
+      className={`w-fit fixed z-30 right-5 top-5 lg:top-2 hover:scale-110 active:scale-100 duration-200`}
       onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
     >
       {theme === "light" ? <MoonIcon /> : <SunIcon />}
