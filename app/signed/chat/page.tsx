@@ -2,13 +2,14 @@
 import Logo from "@/components/icons/logo";
 import { ChatInput } from "@/components/input";
 import TypingSpan from "@/components/typingSpan";
+import withAuth from "@/hocs/withAuth.hoc";
 
 import React, { useState } from "react";
 // import SpeechRecognition, {
 //   useSpeechRecognition,
 // } from "react-speech-recognition";
 
-export default function Page() {
+function Page() {
   const [search, setSearch] = React.useState<string>("");
   // const {
   //   transcript,
@@ -71,3 +72,5 @@ export default function Page() {
     </div>
   );
 }
+
+export default withAuth(Page);
