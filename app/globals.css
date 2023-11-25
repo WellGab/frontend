@@ -39,7 +39,7 @@ body {
     @apply text-[#191919] dark:text-white;
   }
   .mon-hover {
-    @apply lg:hover:opacity-40 transition ease-in-out duration-200 cursor-pointer;
+    @apply lg:hover:scale-105 transition ease-in-out duration-200 cursor-pointer;
   }
 }
 
@@ -47,3 +47,14 @@ body {
 .well-gab-spinner circle{
   fill: #078;
 }
+
+input,
+textarea,
+button,
+select,
+svg,
+div,
+a {
+    -webkit-tap-highlight-color: transparent;
+}
+

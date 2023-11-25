@@ -46,8 +46,8 @@ export default function Home() {
   };
 
   return (
-    <main className=" min-h-screen  text-primary">
-      <NavBar />
+    <main className=" min-h-screen  text-primary ">
+      <NavBar showLinks />
       <Hero />
       <HowItWorks />
       <Experiencing />

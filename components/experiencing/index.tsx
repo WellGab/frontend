@@ -6,7 +6,10 @@ import Exp3 from "@/assets/imgs/exp3.png";
 
 const Experiencing = () => {
   return (
-    <div className="bg-white dark:bg-[#202124] pt-14 font-plusJakartaSans pb-20 px-12 xl:px-44">
+    <div
+      className="bg-white dark:bg-[#202124] pt-14 font-plusJakartaSans pb-20 px-12 xl:px-44"
+      id="experiencing"
+    >
       <h2 className=" text-center dark:text-transparent bg-hero-gradient bg-clip-text text-5xl font-medium">
         Experiencing any symptom? <br /> Just ask a question.
       </h2>
