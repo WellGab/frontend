@@ -12,7 +12,6 @@ const Page = () => {
     (async () => {
       const res = await fetcher("/api/auth/protected");
       if (res?.token) {
-        console.log(res);
         mutate(res, {
           onError: () => {
             router.push("/auth/login");

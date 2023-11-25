@@ -7,7 +7,6 @@ import toast from "react-hot-toast";
 export default function withAuth(Component: any) {
   return function IsAuth(props: any) {
     const auth = useCheckAuth();
-    console.log(auth);
     useEffect(() => {
       if (!auth) {
         toast.error("Please log in");
