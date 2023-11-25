@@ -13,6 +13,12 @@ import Alert from "@/components/alert";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { useSignup } from "@/hook/auth.hook";
+// import type { Metadata } from "next";
+
+// export const metadata: Metadata = {
+//   title: "sign up",
+//   description: "sign up page",
+// };
 
 export default function Page() {
   const { user, error, isLoading: auth0Loading } = useUser();
