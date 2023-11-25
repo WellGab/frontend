@@ -2,6 +2,7 @@ import React from "react";
 import AI from "@/assets/svgs/ai.svg";
 import HeroImg from "@/assets/imgs/hero-img.png";
 import Image from "next/image";
+import Link from "next/link";
 
 const Hero = () => {
   return (
@@ -32,9 +33,11 @@ const Hero = () => {
         With an AI-Powered Symptom & Diagnosis Guidance at your fingertips; Your
         first step towards informed wellness
       </p>
-      <button className=" mt-12 bg-[#078] w-[320px] h-[60px] rounded-lg text-lg font-sans text-[#F1F3F6]">
-        TRY WELLGAB FOR FREE
-      </button>
+      <Link href={"/chat"}>
+        <button className=" mt-12 bg-[#078] w-[320px] h-[60px] rounded-lg text-lg font-sans text-[#F1F3F6] mon-hover">
+          TRY WELLGAB FOR FREE
+        </button>
+      </Link>
 
       <div className=" mx-auto flex justify-center -bottom-14  absolute w-full">
         <Image src={HeroImg} alt="hero image" className="w-[80%] xl:w-[50%] " />

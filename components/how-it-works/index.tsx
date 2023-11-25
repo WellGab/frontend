@@ -22,7 +22,10 @@ const HowItWorks = () => {
     },
   ];
   return (
-    <section className=" bg-[#F7F7F7] dark:bg-[#0F0F0F] pt-[120px] font-plusJakartaSans pb-20">
+    <section
+      className=" bg-[#F7F7F7] dark:bg-[#0F0F0F] pt-[120px] font-plusJakartaSans pb-20"
+      id="how-it-works"
+    >
       <h2 className=" text-5xl bg-clip-text dark:text-transparent dark:bg-hero-gradient font-medium text-center">
         How it works
       </h2>

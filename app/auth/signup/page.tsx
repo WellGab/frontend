@@ -70,7 +70,7 @@ export default function Page() {
   return (
     <main>
       {isLoading ? <PageLoader /> : null}
-      <NavBar />
+      <NavBar showLinks />
       <CenteredPage>
         <div className="md:w-[500px] w-[300px]">
           <div>
@@ -106,7 +106,7 @@ export default function Page() {
                   name="email"
                   id="email"
                   required
-                  className="rounded-lg border-wellgab-black-2 border-[0.5px] bg-transparent block p-2 text-base text-wellgab-black-2 font-normal w-full"
+                  className="rounded-lg border-wellgab-black-2 border-[0.5px] bg-transparent block p-2 text-base text-wellgab-black-2 dark:text-white font-normal w-full focus:outline-[#078] "
                   placeholder="Enter your email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -126,17 +126,17 @@ export default function Page() {
                     id="password"
                     required
                     placeholder="Enter your Password"
-                    className="rounded-lg border-wellgab-black-2 border-[0.5px] bg-transparent block p-2 text-base text-wellgab-black-2 font-normal w-full"
+                    className="rounded-lg border-wellgab-black-2 border-[0.5px] bg-transparent block p-2 text-base text-wellgab-black-2 font-normal w-full dark:text-white focus:outline-[#078]  "
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                   />
                   <span className="absolute right-[10px] top-[10px]">
                     {showPasswd ? (
-                      <span onClick={revealPasswd}>
+                      <span onClick={revealPasswd} className=" cursor-pointer">
                         <FaEye />
                       </span>
                     ) : (
-                      <span onClick={revealPasswd}>
+                      <span onClick={revealPasswd} className=" cursor-pointer">
                         <FaEyeSlash />
                       </span>
                     )}
