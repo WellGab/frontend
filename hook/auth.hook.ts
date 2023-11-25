@@ -76,7 +76,6 @@ export function useCheckAuth() {
     return true;
   };
 
-  console.log(user?.token, "token");
   const checkAuth = () => {
     if (user?.token) {
       return checkJwtExpiry(user?.token);

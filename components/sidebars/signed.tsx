@@ -11,6 +11,7 @@ import SettingIcon from "../icons/setting";
 import LogoutIcon from "../icons/logout";
 import { useResetRecoilState } from "recoil";
 import userAtom from "@/atoms/user.atom";
+import Link from "next/link";
 
 export default function SignedSidebar() {
   const resetUser = useResetRecoilState(userAtom);
@@ -23,10 +24,12 @@ export default function SignedSidebar() {
 
   return (
     <section className="h-screen fixed dark:bg-wellgab-black-4 bg-white py-5 px-7 w-[19vw]">
-      <div className="flex flex-row items-center justify-center">
-        <Logo />{" "}
-        <span className="text-[#078] dark:text-white pl-2">WellGab</span>
-      </div>
+      <Link href={"/"}>
+        <div className="flex flex-row items-center justify-center">
+          <Logo />{" "}
+          <span className="text-[#078] dark:text-white pl-2">WellGab</span>
+        </div>
+      </Link>
 
       <div className="flex flex-col items-start justify-between h-[90%]">
         <div className="pt-14 w-full">
