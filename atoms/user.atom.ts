@@ -8,7 +8,7 @@ export type UserAtom = {
 };
 
 export default atom<UserAtom>({
-  key: "user-login",
+  key: "user-wellgab",
   default: {
     user_id: "",
     token: "",

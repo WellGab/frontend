@@ -15,10 +15,11 @@ export const ChatInput = (
   > &
     ChatInputProps
 ) => {
+  const { onSend, sendDisabled, ...rest } = props;
   const [divActive, setDivActive] = useState(false);
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    props.onSend();
+    onSend();
   };
   return (
     <form className={`flex w-full gap-x-2 items-center`} onSubmit={onSubmit}>
@@ -28,7 +29,7 @@ export const ChatInput = (
         } `}
       >
         <input
-          {...props}
+          {...rest}
           type="text"
           className=" bg-transparent w-[calc(100%-24px)] text-sm outline-none"
           placeholder="Message WellGab"
