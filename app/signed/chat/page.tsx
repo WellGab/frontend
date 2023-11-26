@@ -23,7 +23,6 @@ import { useScrollToBottom } from "@/hook/util.hook";
 // } from "react-speech-recognition";
 
 function Page() {
-  const { token } = useRecoilValue(userAtom);
   const [value, setValue] = useState("");
   const [messages, setMessages] = useState<{ message: string; gpt: boolean }[]>(
     []
@@ -58,8 +57,6 @@ function Page() {
       refetch();
     }
   }, [activeChatId]); // eslint-disable-line
-
-  console.log(data?.data?.data?.conversations, "conv");
 
   useEffect(() => {
     if (data?.data?.data) {

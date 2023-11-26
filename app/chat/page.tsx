@@ -1,44 +1,89 @@
 "use client";
-import userAtom from "@/atoms/user.atom";
 import WarningIcon from "@/components/icons/warning";
 import { ChatInput } from "@/components/input";
 import NavBar from "@/components/navbar";
 import TypingSpan from "@/components/typingSpan";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import { useRecoilValue } from "recoil";
 import WithoutAuth from "@/hocs/withoutAuth.hoc";
-import { useSocket } from "@/hook/socket.hook";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { anonChatIdAtom } from "@/atoms/chat.atom";
+import {
+  useCreateAnonChat,
+  useGetChatAnon,
+  useSendAnonChat,
+} from "@/hook/chat.hook";
+import toast from "react-hot-toast";
+import { useScrollToBottom } from "@/hook/util.hook";
+import { MessageLoader, PageLoader } from "@/components/loader";
+import { v4 } from "uuid";
 
 const Page = () => {
-  // const { socket, sendMessage } = useSocket();
   const [value, setValue] = useState("");
-
   const [messages, setMessages] = useState<{ message: string; gpt: boolean }[]>(
-    [
-      {
-        message:
-          "Hello! I'm here to support with any health-related questions or worries you may have. PLEASE NOTE! The more detailed information you share, the better I can assist you.",
-        gpt: true,
-      },
-    ]
+    []
   );
+  const [anonChatId, setAnonChatId] = useRecoilState(anonChatIdAtom);
 
-  const [isTyping, setIsTyping] = useState(false);
+  const { mutate, isLoading } = useSendAnonChat(anonChatId);
+  const anonChatMutate = useCreateAnonChat();
 
-  const onSend = async () => {
-    setMessages((prev) => [...prev, { gpt: false, message: value }]);
+  function onSend() {
+    if (value.length < 1) {
+      toast.error("Please enter a message");
+    }
+    setMessages((prev) => [...prev, { message: value, gpt: false }]);
     setValue("");
-    await new Promise((r) => setTimeout(r, 1000));
+    mutate(
+      { message: value },
+      {
+        onSuccess: (data) => {
+          setMessages((prev) => [
+            ...prev,
+            { message: data?.data?.data, gpt: true },
+          ]);
+        },
+      }
+    );
+  }
 
-    let message =
-      "Hello! I'm here to support with any health-related questions or worries you may have. PLEASE NOTE! The more detailed information you share, the better I can assist you.";
-    setMessages((prev) => [...prev, { gpt: true, message: message }]);
-  };
+  const { data, isFetching, refetch } = useGetChatAnon(anonChatId);
+
+  useEffect(() => {
+    if (anonChatId && anonChatId !== "empty") {
+      refetch();
+    } else if (anonChatId === "empty") {
+      const id = v4();
+      anonChatMutate.mutate(id, {
+        onSuccess: (data) => {
+          setAnonChatId(data?.data?.data?.id);
+        },
+      });
+    }
+  }, [anonChatId]); // eslint-disable-line
+
+  useEffect(() => {
+    if (data?.data?.data) {
+      let new_messages: { message: string; gpt: boolean }[] = [];
+      data?.data?.data?.conversations?.forEach(
+        (m: { message: string; reply: string }) => {
+          new_messages = new_messages.concat([
+            { message: m.message, gpt: false },
+            { message: m.reply, gpt: true },
+          ]);
+        }
+      );
+
+      setMessages(new_messages);
+    }
+  }, [data]);
+
+  const scrollRef = useScrollToBottom(messages);
 
   return (
     <section className="dark:bg-[#202124] min-h-screen pb-14 ">
       <NavBar showLinks={false} />
+      {isFetching || anonChatMutate.isLoading ? <PageLoader /> : null}
 
       <div className="px-[6.25rem] font-plusJakartaSans mt-16">
         <h1 className=" text-[40px] dark:text-transparent bg-clip-text bg-hero-gradient font-semibold text-center">
@@ -65,7 +110,7 @@ const Page = () => {
                       WellGab Health Assistant
                     </p>
 
-                    <div className="w-full bg-white dark:bg-[#47494F] p-4 mt-2 rounded-lg dark:text-gpt text-[#4C4C4C] border-[0.3px]  dark:border-transparent">
+                    <div className="w-full bg-white dark:bg-[#47494F] p-4 mt-2 rounded-lg dark:text-gpt text-[#4C4C4C] border-[0.3px]  dark:border-transparent whitespace-pre-wrap">
                       <TypingSpan
                         text={message.message}
                         type={index === messages.length - 1}
@@ -83,6 +128,8 @@ const Page = () => {
                 )}
               </div>
             ))}
+            {isLoading ? <MessageLoader /> : null}
+            <div ref={scrollRef} />
           </div>
 
           <div className=" w-full space-y-10">
@@ -90,7 +137,6 @@ const Page = () => {
               onSend={onSend}
               value={value}
               onChange={(e) => setValue(e.target.value)}
-              sendDisabled={isTyping}
             />
 
             <div className=" w-full bg-bg-utilize rounded-xl py-5">

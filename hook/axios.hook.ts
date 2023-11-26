@@ -8,7 +8,7 @@ export const useAuthAxios = () => {
 
   const axiosInstance = axios.create({
     baseURL: API_URL + "/api/v1/",
-    timeout: 6000,
+    timeout: 120000,
   });
 
   // add interceptors
@@ -21,7 +21,7 @@ export const useAuthAxios = () => {
         return Promise.reject(error);
       }
       return Promise.reject(error);
-    },
+    }
   );
 
   axiosInstance.interceptors.request.use(
@@ -33,7 +33,7 @@ export const useAuthAxios = () => {
     },
     (error) => {
       Promise.reject(error);
-    },
+    }
   );
 
   return axiosInstance;
