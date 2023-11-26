@@ -16,7 +16,7 @@ const Modal = ({ children, open, handleClose }: ModalProps) => {
         >
           <div
             onClick={(e) => e.stopPropagation()}
-            className="w-max pt-[20vh] z-[15] "
+            className="w-max mt-[20vh] z-[15] h-max"
           >
             {children}
           </div>
