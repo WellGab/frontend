@@ -33,7 +33,7 @@ export function useGetChatAnon(chatId: string) {
     async () => await axiosInstance.get("chats-anon/" + chatId),
     {
       enabled: false,
-    }
+    },
   );
 }
 
@@ -75,7 +75,7 @@ export function useSendAnonChat(chatId: string) {
       onError: (error: any) => {
         toast.error(error?.response?.data?.detail ?? error.message);
       },
-    }
+    },
   );
 }
 
@@ -86,9 +86,10 @@ export function useCreateAnonChat() {
       onError: (error: any) => {
         toast.error(error?.response?.data?.detail ?? error.message);
       },
-    }
+    },
   );
-    
+}
+
 export function useUpdateChat(chatId: string) {
   const axiosInstance = useAuthAxios();
 
