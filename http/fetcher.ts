@@ -32,5 +32,7 @@ export const fetcherWithToken = (url: string, token: string) =>
   });
 
 export const fetcher = (url: string) => $http.get(url).then((res) => res.data);
+export const localFetcher = (url: string) =>
+  axios.get(url).then((res) => res.data);
 
 export default $http;

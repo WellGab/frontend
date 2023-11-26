@@ -1,7 +1,7 @@
 "use client";
 import { PageLoader } from "@/components/loader";
 import { useSocialAuth } from "@/hook/auth.hook";
-import { fetcher } from "@/http/fetcher";
+import { localFetcher } from "@/http/fetcher";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 
@@ -10,7 +10,7 @@ const Page = () => {
   const router = useRouter();
   useEffect(() => {
     (async () => {
-      const res = await fetcher("/api/auth/protected");
+      const res = await localFetcher("/api/auth/protected");
       if (res?.token) {
         mutate(res, {
           onError: () => {
