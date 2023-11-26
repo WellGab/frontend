@@ -79,9 +79,6 @@ devDependencies:
   '@types/react-dom':
     specifier: ^18
     version: 18.2.16
-  '@types/react-speech-recognition':
-    specifier: ^3.9.5
-    version: 3.9.5
   autoprefixer:
     specifier: ^10
     version: 10.4.16(postcss@8.4.31)
@@ -1867,11 +1864,7 @@ packages:
 
   /@types/dom-speech-recognition@0.0.4:
     resolution: {integrity: sha512-zf2GwV/G6TdaLwpLDcGTIkHnXf8JEf/viMux+khqKQKDa8/8BAUtXXZS563GnvJ4Fg0PBLGAaFf2GekEVSZ6GQ==}
-<<<<<<< HEAD
-    dev: true
-=======
     dev: false
->>>>>>> 4a18a2d (feat: chat page)
 
   /@types/json5@0.0.29:
     resolution: {integrity: sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==}
@@ -1897,11 +1890,7 @@ packages:
     resolution: {integrity: sha512-m3Sg3Xtj/YcEUu+nLPGwI6oq1wcSblsuyAmXgBfW6Nprfmtl+A+kH4ruPzzFKnFkq6WmmRxdsLvt0nLRAAJtBw==}
     dependencies:
       '@types/dom-speech-recognition': 0.0.4
-<<<<<<< HEAD
-    dev: true
-=======
     dev: false
->>>>>>> 4a18a2d (feat: chat page)
 
   /@types/react@18.2.38:
     resolution: {integrity: sha512-cBBXHzuPtQK6wNthuVMV6IjHAFkdl/FOPFIlkd81/Cd1+IqkHu/A+w4g43kaQQoYHik/ruaQBDL72HyCy1vuMw==}
