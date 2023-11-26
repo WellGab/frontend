@@ -1,23 +1,19 @@
 "use client";
+import { activeChatIdAtom } from "@/atoms/chat.atom";
 import Logo from "@/components/icons/logo";
 import { ChatInput } from "@/components/input";
+import { PageLoader } from "@/components/loader";
 import TypingSpan from "@/components/typingSpan";
 import withAuth from "@/hocs/withAuth.hoc";
+import { useCreateChat, useGetChat, useGetChats } from "@/hook/chat.hook";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useRecoilValue } from "recoil";
 // import SpeechRecognition, {
 //   useSpeechRecognition,
 // } from "react-speech-recognition";
 
 function Page() {
-  const [search, setSearch] = React.useState<string>("");
-  // const {
-  //   transcript,
-  //   listening,
-  //   resetTranscript,
-  //   browserSupportsSpeechRecognition
-  // } = useSpeechRecognition();
-
   const [messages, setMessages] = useState<{ message: string; gpt: boolean }[]>(
     [
       {
@@ -27,9 +23,19 @@ function Page() {
       },
     ]
   );
+  const activeChatId = useRecoilValue(activeChatIdAtom);
+
+  const { data, isFetching, refetch } = useGetChat(activeChatId);
+
+  useEffect(() => {
+    if (activeChatId) {
+      refetch();
+    }
+  }, [activeChatId]); // eslint-disable-line
 
   return (
     <div className=" px-14  pt-[10vh]">
+      {isFetching ? <PageLoader /> : null}
       <div className="h-[80vh] ">
         {messages.length > 0 ? (
           messages.map((message, index) => (
