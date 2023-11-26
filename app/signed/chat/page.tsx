@@ -2,7 +2,7 @@
 import { activeChatIdAtom } from "@/atoms/chat.atom";
 import Logo from "@/components/icons/logo";
 import { ChatInput } from "@/components/input";
-import { PageLoader } from "@/components/loader";
+import { MessageLoader, PageLoader } from "@/components/loader";
 import TypingSpan from "@/components/typingSpan";
 import withAuth from "@/hocs/withAuth.hoc";
 import { useCreateChat, useGetChat, useGetChats } from "@/hook/chat.hook";
@@ -12,6 +12,7 @@ import userAtom from "@/atoms/user.atom";
 import React, { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import { toast } from "react-hot-toast";
+import { useScrollToBottom } from "@/hook/util.hook";
 // import SpeechRecognition, {
 //   useSpeechRecognition,
 // } from "react-speech-recognition";
@@ -19,28 +20,29 @@ import { toast } from "react-hot-toast";
 function Page() {
   const { token } = useRecoilValue(userAtom);
   const [value, setValue] = useState("");
-  const [messages, setMessages] = useState<
-    { message: string; reply: string }[]
-  >([
-    {
-      message: "Hi",
-      reply: "From gpt",
-    },
-  ]);
+  const [messages, setMessages] = useState<{ message: string; gpt: boolean }[]>(
+    []
+  );
   const activeChatId = useRecoilValue(activeChatIdAtom);
   const { socket, sendMessage } = useSocket(token, activeChatId);
+
+  const [messageLoading, setMessageLoading] = useState(false);
 
   function onSend() {
     if (value.length < 1) {
       toast.error("Please enter a message");
     }
+    setMessages((prev) => [...prev, { message: value, gpt: false }]);
     sendMessage(value);
-    socket.on("response", (data) => {
-      console.log("Data",data);
-    });
+    setMessageLoading(true);
+
     setValue("");
   }
 
+  socket.on("response", (dat) => {
+    setMessages((prev) => [...prev, { message: dat, gpt: true }]);
+    setMessageLoading(false);
+  });
   const { data, isFetching, refetch } = useGetChat(activeChatId);
 
   useEffect(() => {
@@ -49,20 +51,40 @@ function Page() {
     }
   }, [activeChatId]); // eslint-disable-line
 
+  console.log(data?.data?.data?.conversations, "conv");
+
+  useEffect(() => {
+    if (data?.data?.data) {
+      let new_messages: { message: string; gpt: boolean }[] = [];
+      data?.data?.data?.conversations?.forEach(
+        (m: { message: string; reply: string }) => {
+          new_messages = new_messages.concat([
+            { message: m.message, gpt: false },
+            { message: m.reply, gpt: true },
+          ]);
+        }
+      );
+
+      setMessages(new_messages);
+    }
+  }, [data]);
+
+  const scrollRef = useScrollToBottom(messages);
+
   return (
     <div className=" px-14  pt-[10vh]">
       {isFetching ? <PageLoader /> : null}
-      <div className="h-[80vh] ">
+      <div className="h-[80vh] overflow-y-scroll  py-4">
         {messages.length > 0 ? (
           messages.map((message, index) => (
             <div key={index}>
-              {message.message ? (
+              {message.gpt ? (
                 <div className="w-[80%]">
                   <p className=" text-xs font-medium">
                     WellGab Health Assistant
                   </p>
 
-                  <div className="w-full bg-white dark:bg-[#47494F] p-4 mt-2 rounded-lg dark:text-gpt text-[#4C4C4C] border-[0.3px]  dark:border-transparent">
+                  <div className="w-full bg-white dark:bg-[#47494F] p-4 mt-2 rounded-lg dark:text-gpt text-[#4C4C4C] border-[0.3px]  dark:border-transparent whitespace-pre-wrap">
                     <TypingSpan
                       text={message.message}
                       type={index === messages.length - 1}
@@ -89,7 +111,10 @@ function Page() {
             </p>
           </div>
         )}
+        {messageLoading ? <MessageLoader /> : null}
+        <div ref={scrollRef} />
       </div>
+
       <ChatInput
         onSend={onSend}
         value={value}

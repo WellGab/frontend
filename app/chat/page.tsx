@@ -11,7 +11,7 @@ import WithoutAuth from "@/hocs/withoutAuth.hoc";
 import { useSocket } from "@/hook/socket.hook";
 
 const Page = () => {
-  const { socket, sendMessage } = useSocket();
+  // const { socket, sendMessage } = useSocket();
   const [value, setValue] = useState("");
 
   const [messages, setMessages] = useState<{ message: string; gpt: boolean }[]>(
@@ -21,7 +21,7 @@ const Page = () => {
           "Hello! I'm here to support with any health-related questions or worries you may have. PLEASE NOTE! The more detailed information you share, the better I can assist you.",
         gpt: true,
       },
-    ],
+    ]
   );
 
   const [isTyping, setIsTyping] = useState(false);

@@ -29,7 +29,7 @@ export default function SignedSidebar() {
   });
 
   const [openModal, setOpenModal] = useState(false);
-  const [showHistory, setShowHistory] = useState(false);
+  const [showHistory, setShowHistory] = useState(true);
   const [settingsModal, setSettingsModal] = useState(false);
 
   const handleClose = () => {
@@ -42,7 +42,7 @@ export default function SignedSidebar() {
 
   function openMenu(
     e: React.MouseEvent<HTMLSpanElement, MouseEvent>,
-    id: string,
+    id: string
   ) {
     e.stopPropagation();
     setMenuOpen(true);
@@ -67,7 +67,7 @@ export default function SignedSidebar() {
             onSuccess: () => {
               refetch();
             },
-          },
+          }
         );
       } else {
         setActiveChat(data?.data?.data[0].id);
@@ -97,7 +97,7 @@ export default function SignedSidebar() {
           }
           handleClose();
         },
-      },
+      }
     );
   };
 
@@ -131,12 +131,17 @@ export default function SignedSidebar() {
               {!showHistory ? <GoChevronRight /> : <GoChevronDown />}
             </IconContext.Provider>
           </button>
-          {showHistory ? (
-            <div className="w-full relative pl-10">
+
+          <div
+            className={`transition-[max-height] overflow-hidden duration-500 ${
+              showHistory ? "max-h-[80vh]" : "max-h-0"
+            }`}
+          >
+            <div className="w-full relative pl-6 overflow-y-scroll">
               {(chats || []).map((chat) => (
                 <div
                   key={chat.id}
-                  className={`flex flex-row gap-3 item-center py-3 mb-3 hover:scale-105 transition cursor-pointer px-2 rounded ${
+                  className={`flex flex-row gap-3 item-center py-3 mb-3 hover:scale-105 transition cursor-pointer px-2 rounded pl-5 ${
                     chat.id === activeChat
                       ? "bg-[#078] text-white [&_path]:stroke-white "
                       : ""
@@ -159,7 +164,7 @@ export default function SignedSidebar() {
                 <Topic isOpen={menuOpen} onClose={() => setMenuOpen(false)} />
               )}
             </div>
-          ) : null}
+          </div>
         </div>
 
         <div className="w-full">
@@ -209,7 +214,10 @@ export default function SignedSidebar() {
         <div className="bg-white dark:bg-[#202124] rounded-lg w-[40vw] p-6 ">
           <div className="flex flex-row justify-between w-full">
             <p className="text-2xl font-normal">Settings</p>
-            <span className="flex items-end cursor-pointer" onClick={handleSettingsClose}>
+            <span
+              className="flex items-end cursor-pointer"
+              onClick={handleSettingsClose}
+            >
               <Close />
             </span>
           </div>
