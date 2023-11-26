@@ -1,9 +1,9 @@
 "use client";
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useEffect, useMemo, useState } from "react";
 import Logo from "../icons/logo";
+import { toast } from "react-hot-toast";
 
 import { GoChevronRight, GoChevronDown } from "react-icons/go";
-import { BsThreeDotsVertical } from "react-icons/bs";
 
 import { IconContext } from "react-icons";
 import EditIcon from "../icons/edit";
@@ -45,6 +45,7 @@ export default function SignedSidebar() {
     text_size: "small",
     display: "light",
   });
+  console.log("User Settings: ", userSettings)
 
   const {
     data: settings,
@@ -83,6 +84,23 @@ export default function SignedSidebar() {
   }
 
   function handleDeleteAccount() {}
+
+  function handleUpdateSettings(memoizedUserSettings: SettingsType) {
+    updateSettings(memoizedUserSettings, {
+      onSuccess: () => {
+        toast.success("Settings updated successfully");
+      },
+      onError: (error) => {
+        toast.error(error?.response?.data?.detail ?? error?.message);
+      },
+    });
+  }
+
+  const memoizedUserSettings = useMemo(() => userSettings, [userSettings]);
+
+  useEffect(() => {
+    handleUpdateSettings(memoizedUserSettings);
+  }, [userSettings]); // eslint-disable-line
 
   const chats = useRecoilValue(chatAtom);
   const [activeChat, setActiveChat] = useRecoilState(activeChatIdAtom);
