@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import Logo from "../icons/logo";
 
 import { GoChevronRight, GoChevronDown } from "react-icons/go";
@@ -27,6 +27,7 @@ import {
   useGetSettings,
   useUpdateSettings,
 } from "@/hook/settings.hook";
+import ChatsBody from "../chats";
 
 export default function SignedSidebar() {
   const resetUser = useResetRecoilState(userAtom);
@@ -69,15 +70,18 @@ export default function SignedSidebar() {
 
   function openMenu(
     e: React.MouseEvent<HTMLSpanElement, MouseEvent>,
-    id: string
+    id: string,
   ) {
     e.stopPropagation();
+    console.log("open menu");
     setMenuOpen(true);
   }
 
   function handleHistory() {
     setShowHistory((prev) => !prev);
   }
+
+  function handleDeleteAccount() {}
 
   const chats = useRecoilValue(chatAtom);
   const [activeChat, setActiveChat] = useRecoilState(activeChatIdAtom);
@@ -94,7 +98,7 @@ export default function SignedSidebar() {
             onSuccess: () => {
               refetch();
             },
-          }
+          },
         );
       } else {
         setActiveChat(data?.data?.data[0].id);
@@ -124,7 +128,7 @@ export default function SignedSidebar() {
           }
           handleClose();
         },
-      }
+      },
     );
   };
 
@@ -166,36 +170,32 @@ export default function SignedSidebar() {
           </button>
 
           <div
-            className={`transition-[max-height] overflow-hidden duration-500 ${
+            className={`transition-[max-height] h-full overflow-hidden duration-500 ${
               showHistory ? "max-h-[80vh]" : "max-h-0"
             }`}
           >
-            <div className="w-full relative pl-6 overflow-y-scroll">
+            <div className="w-full relative pl-6">
               {(chats || []).map((chat) => (
-                <div
-                  key={chat.id}
-                  className={`flex flex-row gap-3 item-center py-3 mb-3 hover:scale-105 transition cursor-pointer px-2 rounded pl-5 ${
-                    chat.id === activeChat
-                      ? "bg-[#078] text-white [&_path]:stroke-white "
-                      : ""
-                  }`}
-                  onClick={() => setActiveChat(chat.id)}
-                >
-                  <span className="flex-[2] truncate">{chat.topic}</span>
-                  <div
+                <Fragment key={chat.id}>
+                  <ChatsBody
+                    chat={chat}
+                    activeChat={activeChat}
+                    setActiveChat={setActiveChat}
+                    openMenu={openMenu}
                     ref={ref}
-                    onClick={(e) => openMenu(e, chat.id)}
-                    className=""
-                  >
-                    <IconContext.Provider value={{ size: "1.8em" }}>
-                      <BsThreeDotsVertical />
-                    </IconContext.Provider>
-                  </div>
-                </div>
+                    menuOpen={menuOpen}
+                    setMenuOpen={setMenuOpen}
+                  />
+
+                  {!!menuOpen && (
+                    <Topic
+                      onClose={() => setMenuOpen(false)}
+                      topic={chat.topic}
+                      chatId={chat.id}
+                    />
+                  )}
+                </Fragment>
               ))}
-              {!!menuOpen && (
-                <Topic isOpen={menuOpen} onClose={() => setMenuOpen(false)} />
-              )}
             </div>
           </div>
         </div>
@@ -262,9 +262,19 @@ export default function SignedSidebar() {
                   Clear chats after 90 days
                 </p>
                 <Switch
+                  value={userSettings.ninety_days_chat_limit ? 1 : 0}
+                  onChange={(
+                    e: React.MouseEvent<HTMLSpanElement, MouseEvent>,
+                  ) =>
+                    setUserSettings((prev) => ({
+                      ...prev,
+                      ninety_days_chat_limit: !prev.ninety_days_chat_limit,
+                    }))
+                  }
                   styles={{
-                    track: (checked: boolean) => ({
+                    track: (checked: number) => ({
                       backgroundColor: checked ? "#0F973D" : "grey",
+                      width: 40, 
                     }),
                     button: (checked: boolean) => ({
                       backgroundColor: checked ? "white" : "white",
@@ -274,7 +284,16 @@ export default function SignedSidebar() {
               </div>
               <div className="flex flex-row justify-between w-full mb-6">
                 <p>Text Size</p>
-                <select value="" className="bg-transparent">
+                <select
+                  value={userSettings.text_size}
+                  onChange={(e) =>
+                    setUserSettings((prev) => ({
+                      ...prev,
+                      text_size: e.target.value,
+                    }))
+                  }
+                  className="bg-transparent"
+                >
                   <option value="small">Small</option>
                   <option value="medium">Medium</option>
                   <option value="large">Large</option>
@@ -282,14 +301,26 @@ export default function SignedSidebar() {
               </div>
               <div className="flex flex-row justify-between w-full mb-6">
                 <p>Display</p>
-                <select value="" className="bg-transparent">
+                <select
+                  value={userSettings.display}
+                  onChange={(e) =>
+                    setUserSettings((prev) => ({
+                      ...prev,
+                      display: e.target.value,
+                    }))
+                  }
+                  className="bg-transparent"
+                >
                   <option value="light">Light Mode</option>
                   <option value="dark">Dark Mode</option>
                 </select>
               </div>
               <div className="flex flex-row justify-between w-full">
                 <p>Delete Account</p>
-                <button className="bg-wellgab-red-1 text-wellgab-white-1 py-2 px-4 rounded-md text-lg font-normal">
+                <button
+                  onClick={handleDeleteAccount}
+                  className="bg-wellgab-red-1 text-wellgab-white-1 py-2 px-4 rounded-md text-lg font-normal"
+                >
                   Delete
                 </button>
               </div>

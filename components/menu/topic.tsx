@@ -6,13 +6,12 @@ import { useDeleteChat, useUpdateChat } from "@/hook/chat.hook";
 import { toast } from "react-hot-toast";
 
 interface MenuProps {
-  isOpen: boolean;
   onClose: () => void;
   chatId: string;
   topic: string;
 }
 
-export default function Topic({ isOpen, onClose, chatId, topic }: MenuProps) {
+export default function Topic({ onClose, chatId, topic }: MenuProps) {
   const { mutate: deleteTopic } = useDeleteChat(chatId);
   const { mutate: renameTopic } = useUpdateChat(chatId);
 
@@ -53,7 +52,10 @@ export default function Topic({ isOpen, onClose, chatId, topic }: MenuProps) {
         <Share />
         <span className="flex-[2] text-left">Share</span>
       </button>
-      <button onClick={rename} className="flex flex-row gap-3 item-center py-3 mb-3 hover:scale-105 transition cursor-pointer px-2 rounded w-full">
+      <button
+        onClick={rename}
+        className="flex flex-row gap-3 item-center py-3 mb-3 hover:scale-105 transition cursor-pointer px-2 rounded w-full"
+      >
         <Rename />
         <span className="flex-[2] text-left">Rename</span>
       </button>
