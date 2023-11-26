@@ -25,11 +25,11 @@ const Hero = () => {
             powered
           </span>
         </h1>
-        <h1 className=" dark:text-transparent bg-clip-text bg-hero-gradient h-[70px]">
+        <h1 className=" dark:text-transparent bg-clip-text bg-hero-gradient pb-3">
           symptom & diagnosis guidance
         </h1>
       </div>
-      <p className=" text-base lg:text-lg xl:text-xl text-[#B4B4B4] mt-6 px-4 lg:px-0">
+      <p className=" text-base lg:text-lg xl:text-xl text-[#B4B4B4] pt-4 px-4 lg:px-0">
         With an AI-Powered Symptom & Diagnosis Guidance at your fingertips; Your
         first step towards informed wellness
       </p>
