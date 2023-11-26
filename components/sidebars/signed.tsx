@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import Logo from "../icons/logo";
 
 import { GoChevronRight, GoChevronDown } from "react-icons/go";
+import { BsThreeDotsVertical } from "react-icons/bs";
 
 import { IconContext } from "react-icons";
 import EditIcon from "../icons/edit";
@@ -16,15 +17,40 @@ import chatAtom, { activeChatIdAtom } from "@/atoms/chat.atom";
 import { useCreateChat, useGetChats } from "@/hook/chat.hook";
 import { PageLoader } from "../loader";
 import Modal from "../modal";
+import { useDetectClickOutside } from "react-detect-click-outside";
+import Topic from "../menu/topic";
+import Close from "../icons/close";
 
 export default function SignedSidebar() {
   const resetUser = useResetRecoilState(userAtom);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const ref = useDetectClickOutside({
+    onTriggered: () => setMenuOpen(false),
+  });
 
   const [openModal, setOpenModal] = useState(false);
+  const [showHistory, setShowHistory] = useState(false);
+  const [settingsModal, setSettingsModal] = useState(false);
 
   const handleClose = () => {
     setOpenModal(false);
   };
+
+  const handleSettingsClose = () => {
+    setSettingsModal(false);
+  };
+
+  function openMenu(
+    e: React.MouseEvent<HTMLSpanElement, MouseEvent>,
+    id: string,
+  ) {
+    e.stopPropagation();
+    setMenuOpen(true);
+  }
+
+  function handleHistory() {
+    setShowHistory((prev) => !prev);
+  }
 
   const chats = useRecoilValue(chatAtom);
   const [activeChat, setActiveChat] = useRecoilState(activeChatIdAtom);
@@ -41,7 +67,7 @@ export default function SignedSidebar() {
             onSuccess: () => {
               refetch();
             },
-          }
+          },
         );
       } else {
         setActiveChat(data?.data?.data[0].id);
@@ -64,7 +90,14 @@ export default function SignedSidebar() {
           refetch();
           handleClose();
         },
-      }
+        onError: (error) => {
+          // check if the message is user not found and send the user to login page
+          if (error?.response?.data?.detail === "User not found") {
+            logout();
+          }
+          handleClose();
+        },
+      },
     );
   };
 
@@ -80,50 +113,70 @@ export default function SignedSidebar() {
 
       <div className="flex flex-col items-start justify-between h-[90%] px-4">
         <div className="pt-14 w-full">
-          <div
-            className="flex flex-row gap-3 item-center py-3 mb-3 hover:scale-105 transition cursor-pointer px-2 rounded"
+          <button
+            className="flex flex-row gap-3 item-center py-3 mb-3 hover:scale-105 transition cursor-pointer px-2 rounded w-full"
             onClick={() => setOpenModal(true)}
           >
             <EditIcon />
-            <span className="flex-[2] ">New Chat</span>
-          </div>
+            <span className="flex-[2] text-left">New Chat</span>
+          </button>
 
-          <div className="flex flex-row gap-3 items-center py-3 mb-3 hover:scale-105 transition cursor-pointer px-2 rounded">
+          <button
+            onClick={handleHistory}
+            className="flex flex-row gap-3 items-center py-3 mb-3 hover:scale-105 transition cursor-pointer px-2 rounded w-full"
+          >
             <HistoryIcon />
-            <span className="flex-[2]">History</span>
+            <span className="flex-[2] text-left">History</span>
             <IconContext.Provider value={{ size: "1.8em" }}>
-              <GoChevronRight />
+              {!showHistory ? <GoChevronRight /> : <GoChevronDown />}
             </IconContext.Provider>
-          </div>
-          <div className="w-full">
-            {(chats || []).map((chat) => (
-              <div
-                key={chat.id}
-                className={`flex flex-row gap-3 item-center py-3 mb-3 hover:scale-105 transition cursor-pointer px-2 rounded ${
-                  chat.id === activeChat
-                    ? "bg-[#078] text-white [&_path]:stroke-white "
-                    : ""
-                }`}
-                onClick={() => setActiveChat(chat.id)}
-              >
-                <span className="flex-[2] truncate ">{chat.topic}</span>
-              </div>
-            ))}
-          </div>
+          </button>
+          {showHistory ? (
+            <div className="w-full relative pl-10">
+              {(chats || []).map((chat) => (
+                <div
+                  key={chat.id}
+                  className={`flex flex-row gap-3 item-center py-3 mb-3 hover:scale-105 transition cursor-pointer px-2 rounded ${
+                    chat.id === activeChat
+                      ? "bg-[#078] text-white [&_path]:stroke-white "
+                      : ""
+                  }`}
+                  onClick={() => setActiveChat(chat.id)}
+                >
+                  <span className="flex-[2] truncate">{chat.topic}</span>
+                  <div
+                    ref={ref}
+                    onClick={(e) => openMenu(e, chat.id)}
+                    className=""
+                  >
+                    <IconContext.Provider value={{ size: "1.8em" }}>
+                      <BsThreeDotsVertical />
+                    </IconContext.Provider>
+                  </div>
+                </div>
+              ))}
+              {!!menuOpen && (
+                <Topic isOpen={menuOpen} onClose={() => setMenuOpen(false)} />
+              )}
+            </div>
+          ) : null}
         </div>
 
         <div className="w-full">
-          <div className="flex flex-row gap-3 item-center py-3 mb-3 hover:scale-105 transition cursor-pointer">
+          <button
+            className="flex flex-row gap-3 item-center py-3 mb-3 hover:scale-105 transition cursor-pointer w-full"
+            onClick={() => setSettingsModal(true)}
+          >
             <SettingIcon />
-            <span className="flex-[2]">Settings</span>
-          </div>
-          <div
-            className="flex flex-row gap-3 item-center py-3 mb-3 hover:scale-105 transition cursor-pointer"
+            <span className="flex-[2] text-left">Settings</span>
+          </button>
+          <button
+            className="flex flex-row gap-3 item-center py-3 mb-3 hover:scale-105 transition cursor-pointer w-full"
             onClick={() => logout()}
           >
             <LogoutIcon />
-            <span className="flex-[2]">Logout</span>
-          </div>
+            <span className="flex-[2] text-left">Logout</span>
+          </button>
         </div>
       </div>
       <Modal open={openModal} handleClose={handleClose}>
@@ -148,6 +201,34 @@ export default function SignedSidebar() {
               disabled={value.length < 1}
             >
               Submit
+            </button>
+          </div>
+        </div>
+      </Modal>
+      <Modal open={settingsModal} handleClose={handleSettingsClose}>
+        <div className="bg-white dark:bg-[#202124] rounded-lg w-[40vw] p-6 ">
+          <div className="flex flex-row justify-between w-full">
+            <p className="text-2xl font-normal">Settings</p>
+            <span className="flex items-end cursor-pointer" onClick={handleSettingsClose}>
+              <Close />
+            </span>
+          </div>
+          <div className="flex flex-row justify-between w-full">
+            <p className="text-base font-medium">Clear chats after 90 days</p>
+            <input type="radio" />
+          </div>
+          <div className="flex flex-row justify-between w-full">
+            <p>Text size</p>
+            <select></select>
+          </div>
+          <div className="flex flex-row justify-between w-full">
+            <p>Display</p>
+            <input type="radio" />
+          </div>
+          <div className="flex flex-row justify-between w-full">
+            <p>Delete Account</p>
+            <button className="bg-wellgab-red-1 text-wellgab-white-1 py-2 px-4 rounded-md text-lg font-normal">
+              Delete
             </button>
           </div>
         </div>

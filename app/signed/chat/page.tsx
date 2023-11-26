@@ -6,24 +6,40 @@ import { PageLoader } from "@/components/loader";
 import TypingSpan from "@/components/typingSpan";
 import withAuth from "@/hocs/withAuth.hoc";
 import { useCreateChat, useGetChat, useGetChats } from "@/hook/chat.hook";
+import { useSocket } from "@/hook/socket.hook";
+import userAtom from "@/atoms/user.atom";
 
 import React, { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
+import { toast } from "react-hot-toast";
 // import SpeechRecognition, {
 //   useSpeechRecognition,
 // } from "react-speech-recognition";
 
 function Page() {
-  const [messages, setMessages] = useState<{ message: string; gpt: boolean }[]>(
-    [
-      {
-        message:
-          "Hello! I'm here to support with any health-related questions or worries you may have. PLEASE NOTE! The more detailed information you share, the better I can assist you.",
-        gpt: true,
-      },
-    ],
-  );
+  const { token } = useRecoilValue(userAtom);
+  const [value, setValue] = useState("");
+  const [messages, setMessages] = useState<
+    { message: string; reply: string }[]
+  >([
+    {
+      message: "Hi",
+      reply: "From gpt",
+    },
+  ]);
   const activeChatId = useRecoilValue(activeChatIdAtom);
+  const { socket, sendMessage } = useSocket(token, activeChatId);
+
+  function onSend() {
+    if (value.length < 1) {
+      toast.error("Please enter a message");
+    }
+    sendMessage(value);
+    socket.on("response", (data) => {
+      console.log("Data",data);
+    });
+    setValue("");
+  }
 
   const { data, isFetching, refetch } = useGetChat(activeChatId);
 
@@ -40,7 +56,7 @@ function Page() {
         {messages.length > 0 ? (
           messages.map((message, index) => (
             <div key={index}>
-              {message.gpt ? (
+              {message.message ? (
                 <div className="w-[80%]">
                   <p className=" text-xs font-medium">
                     WellGab Health Assistant
@@ -74,7 +90,12 @@ function Page() {
           </div>
         )}
       </div>
-      <ChatInput onSend={() => {}} />
+      <ChatInput
+        onSend={onSend}
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+        // sendDisabled={false}
+      />
     </div>
   );
 }

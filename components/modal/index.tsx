@@ -11,7 +11,7 @@ const Modal = ({ children, open, handleClose }: ModalProps) => {
     <>
       {open ? (
         <div
-          className=" fixed w-screen h-screen left-0 top-0 bg-black bg-opacity-40 flex  justify-center z-[15]"
+          className="fixed w-screen h-screen left-0 top-0 bg-black bg-opacity-40 flex  justify-center z-[15]"
           onClick={() => handleClose()}
         >
           <div

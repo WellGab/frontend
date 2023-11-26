@@ -21,7 +21,7 @@ export const useAuthAxios = () => {
         return Promise.reject(error);
       }
       return Promise.reject(error);
-    }
+    },
   );
 
   axiosInstance.interceptors.request.use(
@@ -33,7 +33,7 @@ export const useAuthAxios = () => {
     },
     (error) => {
       Promise.reject(error);
-    }
+    },
   );
 
   return axiosInstance;

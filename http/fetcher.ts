@@ -1,7 +1,7 @@
 import axios from "axios";
+import { env } from "../src/env.mjs";
 
-export const API_URL =
-  process.env.NEXT_PUBLIC_API_URL || "http://localhost:1337";
+export const API_URL = env.NEXT_PUBLIC_API_URL || "http://localhost:1337";
 
 const $http = axios.create({
   baseURL: API_URL + "/api/v1/",
@@ -18,7 +18,7 @@ $http.interceptors.response.use(
       return Promise.reject(error);
     }
     return Promise.reject(error);
-  }
+  },
 );
 
 // add token before making the request
