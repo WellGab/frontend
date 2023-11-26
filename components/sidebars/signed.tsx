@@ -38,6 +38,8 @@ export default function SignedSidebar() {
   });
 
   const [openModal, setOpenModal] = useState(false);
+  const [deleteModal, setDeleteModal] = useState(false);
+  const [password, setPassword] = useState("");
   const [showHistory, setShowHistory] = useState(true);
   const [settingsModal, setSettingsModal] = useState(false);
   const [userSettings, setUserSettings] = useState<SettingsType>({
@@ -45,7 +47,6 @@ export default function SignedSidebar() {
     text_size: "small",
     display: "light",
   });
-  console.log("User Settings: ", userSettings)
 
   const {
     data: settings,
@@ -55,7 +56,6 @@ export default function SignedSidebar() {
   const { mutate: updateSettings } = useUpdateSettings();
   const { mutate: deleteAccount } = useDeleteAccount();
 
-  console.log("settings: ", settings);
   const handleClose = () => {
     setOpenModal(false);
   };
@@ -70,12 +70,8 @@ export default function SignedSidebar() {
     setSettingsModal(false);
   };
 
-  function openMenu(
-    e: React.MouseEvent<HTMLSpanElement, MouseEvent>,
-    id: string
-  ) {
+  function openMenu(e: React.MouseEvent<HTMLSpanElement, MouseEvent>) {
     e.stopPropagation();
-    console.log("open menu");
     setMenuOpen(true);
   }
 
@@ -83,7 +79,24 @@ export default function SignedSidebar() {
     setShowHistory((prev) => !prev);
   }
 
-  function handleDeleteAccount() {}
+  function handleDeleteAccount() {
+    // confirm delete, trigger conformation modal
+    // modal to take password
+    deleteAccount(
+      {
+        password: password,
+      },
+      {
+        onSuccess: () => {
+          toast.success("Account deleted successfully");
+          logout();
+        },
+        onError: (error) => {
+          toast.error(error?.response?.data?.detail ?? error?.message);
+        },
+      },
+    );
+  }
 
   function handleUpdateSettings(memoizedUserSettings: SettingsType) {
     updateSettings(memoizedUserSettings, {
@@ -117,7 +130,7 @@ export default function SignedSidebar() {
             onSuccess: () => {
               refetch();
             },
-          }
+          },
         );
       } else {
         setActiveChat(data?.data?.data[0].id);
@@ -147,7 +160,7 @@ export default function SignedSidebar() {
           }
           handleClose();
         },
-      }
+      },
     );
   };
 
@@ -327,7 +340,7 @@ export default function SignedSidebar() {
               <div className="flex flex-row justify-between w-full">
                 <p>Delete Account</p>
                 <button
-                  onClick={handleDeleteAccount}
+                  onClick={() => setDeleteModal(() => true)}
                   className="bg-wellgab-red-1 text-wellgab-white-1 py-2 px-4 rounded-md text-lg font-normal"
                 >
                   Delete
@@ -335,6 +348,42 @@ export default function SignedSidebar() {
               </div>
             </>
           ) : null}
+        </div>
+      </Modal>
+      <Modal open={deleteModal} handleClose={() => setDeleteModal(() => false)}>
+        <div className="bg-white dark:bg-[#202124] rounded-lg w-[40vw] px-6 py-6 pb-24">
+          <div className="flex flex-col justify-between w-full mb-5">
+            <p className="text-2xl font-normal mb-3">Delete your account</p>
+            <form>
+              <label
+                htmlFor="password"
+                className="text-xl font-normal dark:text-wellgab-white-1 text-wellgab-black-2 mb-3"
+              >
+                Enter your password to confirm.
+              </label>
+              
+              <input
+                type="password"
+                className="w-full rounded-md p-2 bg-transparent border border-wellgab-gray-1"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </form>
+            <div className="flex flex-row gap-4 pt-16">
+              <button
+                onClick={() => setDeleteModal(() => false)}
+                className="flex-1 py-2 px-4 rounded-md border border-wellgab-green text-wellgab-green"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleDeleteAccount}
+                className="flex-1 py-2 px-4 rounded-md bg-wellgab-red-1 text-white"
+              >
+                Delete
+              </button>
+            </div>
+          </div>
         </div>
       </Modal>
     </section>

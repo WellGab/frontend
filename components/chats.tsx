@@ -1,7 +1,6 @@
 import React from "react";
 import { IconContext } from "react-icons";
 import { BsThreeDotsVertical } from "react-icons/bs";
-import Topic from "./menu/topic";
 
 interface ChatsProps {
   chat: {
@@ -21,8 +20,6 @@ function ChatsBody({
   setActiveChat,
   openMenu,
   ref,
-  menuOpen,
-  setMenuOpen,
 }: ChatsProps) {
   return (
     <div className="relative">
@@ -35,20 +32,12 @@ function ChatsBody({
         onClick={() => setActiveChat(chat.id)}
       >
         <span className="flex-[2] truncate">{chat.topic}</span>
-        <div ref={ref} onClick={(e) => openMenu(e, chat.id)} className="">
+        <div ref={ref} onClick={(e) => openMenu(e)} className="">
           <IconContext.Provider value={{ size: "1.8em" }}>
             <BsThreeDotsVertical />
           </IconContext.Provider>
         </div>
       </div>
-
-      {/* {!!menuOpen && (
-        <Topic
-          onClose={() => setMenuOpen(false)}
-          topic={chat.topic}
-          chatId={chat.id}
-        />
-      )} */}
     </div>
   );
 }
