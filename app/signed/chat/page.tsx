@@ -14,7 +14,7 @@ import {
 import { useSocket } from "@/hook/socket.hook";
 import userAtom from "@/atoms/user.atom";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useRecoilValue } from "recoil";
 import { toast } from "react-hot-toast";
 import { useScrollToBottom } from "@/hook/util.hook";
@@ -74,7 +74,9 @@ function Page() {
     }
   }, [data]);
 
-  const scrollRef = useScrollToBottom(messages);
+  const messageBoxRef = useRef<HTMLDivElement>(null);
+
+  const scrollRef = useScrollToBottom(messageBoxRef);
 
   return (
     <div className=" px-14  pt-[10vh]">
@@ -89,7 +91,10 @@ function Page() {
                     WellGab Health Assistant
                   </p>
 
-                  <div className="w-full bg-white dark:bg-[#47494F] p-4 mt-2 rounded-lg dark:text-gpt text-[#4C4C4C] border-[0.3px]  dark:border-transparent whitespace-pre-wrap">
+                  <div
+                    className="w-full bg-white dark:bg-[#47494F] p-4 mt-2 rounded-lg dark:text-gpt text-[#4C4C4C] border-[0.3px]  dark:border-transparent whitespace-pre-wrap"
+                    ref={messageBoxRef}
+                  >
                     <TypingSpan
                       text={message.message}
                       type={index === messages.length - 1}
