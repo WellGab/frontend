@@ -20,6 +20,13 @@ import Modal from "../modal";
 import { useDetectClickOutside } from "react-detect-click-outside";
 import Topic from "../menu/topic";
 import Close from "../icons/close";
+import Switch from "react-input-switch";
+import {
+  SettingsType,
+  useDeleteAccount,
+  useGetSettings,
+  useUpdateSettings,
+} from "@/hook/settings.hook";
 
 export default function SignedSidebar() {
   const resetUser = useResetRecoilState(userAtom);
@@ -31,10 +38,30 @@ export default function SignedSidebar() {
   const [openModal, setOpenModal] = useState(false);
   const [showHistory, setShowHistory] = useState(true);
   const [settingsModal, setSettingsModal] = useState(false);
+  const [userSettings, setUserSettings] = useState<SettingsType>({
+    ninety_days_chat_limit: false,
+    text_size: "small",
+    display: "light",
+  });
 
+  const {
+    data: settings,
+    error,
+    isLoading: settingsLoading,
+  } = useGetSettings();
+  const { mutate: updateSettings } = useUpdateSettings();
+  const { mutate: deleteAccount } = useDeleteAccount();
+
+  console.log("settings: ", settings);
   const handleClose = () => {
     setOpenModal(false);
   };
+
+  useEffect(() => {
+    if (settings) {
+      setUserSettings(settings.data.data);
+    }
+  }, [settings]);
 
   const handleSettingsClose = () => {
     setSettingsModal(false);
@@ -107,27 +134,33 @@ export default function SignedSidebar() {
       <Link href={"/"}>
         <div className="flex flex-row items-center justify-center">
           <Logo />{" "}
-          <span className="text-[#078] dark:text-white pl-2">WellGab</span>
+          <span className="text-[#078] dark:text-white pl-2 md:flex hidden">
+            WellGab
+          </span>
         </div>
       </Link>
 
       <div className="flex flex-col items-start justify-between h-[90%] px-4">
         <div className="pt-14 w-full">
           <button
-            className="flex flex-row gap-3 item-center py-3 mb-3 hover:scale-105 transition cursor-pointer px-2 rounded w-full"
+            className="flex flex-row gap-3 item-center py-3 mb-3 hover:scale-105 transition cursor-pointer md:px-2 rounded w-full"
+            title="new chat"
             onClick={() => setOpenModal(true)}
           >
             <EditIcon />
-            <span className="flex-[2] text-left">New Chat</span>
+            <span className="flex-[2] text-left md:flex hidden">New Chat</span>
           </button>
 
           <button
             onClick={handleHistory}
-            className="flex flex-row gap-3 items-center py-3 mb-3 hover:scale-105 transition cursor-pointer px-2 rounded w-full"
+            title="history"
+            className="flex flex-row gap-3 items-center py-3 mb-3 hover:scale-105 transition cursor-pointer md:px-2 rounded w-full"
           >
             <HistoryIcon />
-            <span className="flex-[2] text-left">History</span>
-            <IconContext.Provider value={{ size: "1.8em" }}>
+            <span className="flex-[2] text-left md:flex hidden">History</span>
+            <IconContext.Provider
+              value={{ size: "1.8em", className: "md:flex hidden" }}
+            >
               {!showHistory ? <GoChevronRight /> : <GoChevronDown />}
             </IconContext.Provider>
           </button>
@@ -173,14 +206,14 @@ export default function SignedSidebar() {
             onClick={() => setSettingsModal(true)}
           >
             <SettingIcon />
-            <span className="flex-[2] text-left">Settings</span>
+            <span className="flex-[2] text-left md:flex hidden">Settings</span>
           </button>
           <button
             className="flex flex-row gap-3 item-center py-3 mb-3 hover:scale-105 transition cursor-pointer w-full"
             onClick={() => logout()}
           >
             <LogoutIcon />
-            <span className="flex-[2] text-left">Logout</span>
+            <span className="flex-[2] text-left md:flex hidden">Logout</span>
           </button>
         </div>
       </div>
@@ -211,8 +244,8 @@ export default function SignedSidebar() {
         </div>
       </Modal>
       <Modal open={settingsModal} handleClose={handleSettingsClose}>
-        <div className="bg-white dark:bg-[#202124] rounded-lg w-[40vw] p-6 ">
-          <div className="flex flex-row justify-between w-full">
+        <div className="bg-white dark:bg-[#202124] rounded-lg w-[40vw] px-6 py-6 pb-24">
+          <div className="flex flex-row justify-between w-full mb-5">
             <p className="text-2xl font-normal">Settings</p>
             <span
               className="flex items-end cursor-pointer"
@@ -221,24 +254,47 @@ export default function SignedSidebar() {
               <Close />
             </span>
           </div>
-          <div className="flex flex-row justify-between w-full">
-            <p className="text-base font-medium">Clear chats after 90 days</p>
-            <input type="radio" />
-          </div>
-          <div className="flex flex-row justify-between w-full">
-            <p>Text size</p>
-            <select></select>
-          </div>
-          <div className="flex flex-row justify-between w-full">
-            <p>Display</p>
-            <input type="radio" />
-          </div>
-          <div className="flex flex-row justify-between w-full">
-            <p>Delete Account</p>
-            <button className="bg-wellgab-red-1 text-wellgab-white-1 py-2 px-4 rounded-md text-lg font-normal">
-              Delete
-            </button>
-          </div>
+          {settingsLoading ? <PageLoader /> : null}
+          {settings !== null ? (
+            <>
+              <div className="flex flex-row justify-between w-full mb-6">
+                <p className="text-base font-medium">
+                  Clear chats after 90 days
+                </p>
+                <Switch
+                  styles={{
+                    track: (checked: boolean) => ({
+                      backgroundColor: checked ? "#0F973D" : "grey",
+                    }),
+                    button: (checked: boolean) => ({
+                      backgroundColor: checked ? "white" : "white",
+                    }),
+                  }}
+                />
+              </div>
+              <div className="flex flex-row justify-between w-full mb-6">
+                <p>Text Size</p>
+                <select value="" className="bg-transparent">
+                  <option value="small">Small</option>
+                  <option value="medium">Medium</option>
+                  <option value="large">Large</option>
+                </select>
+              </div>
+              <div className="flex flex-row justify-between w-full mb-6">
+                <p>Display</p>
+                <select value="" className="bg-transparent">
+                  <option value="light">Light Mode</option>
+                  <option value="dark">Dark Mode</option>
+                </select>
+              </div>
+              <div className="flex flex-row justify-between w-full">
+                <p>Delete Account</p>
+                <button className="bg-wellgab-red-1 text-wellgab-white-1 py-2 px-4 rounded-md text-lg font-normal">
+                  Delete
+                </button>
+              </div>
+            </>
+          ) : null}
         </div>
       </Modal>
     </section>

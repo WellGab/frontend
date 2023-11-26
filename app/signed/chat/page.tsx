@@ -79,7 +79,7 @@ function Page() {
   const scrollRef = useScrollToBottom(messageBoxRef);
 
   return (
-    <div className=" px-14  pt-[10vh]">
+    <div className="md:px-14 px-2 pt-[10vh]">
       {isFetching ? <PageLoader /> : null}
       <div className="h-[80vh] overflow-y-scroll  py-4">
         {messages.length > 0 ? (

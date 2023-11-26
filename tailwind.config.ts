@@ -30,6 +30,7 @@ const config: Config = {
         "wellgab-white-1": "#F1F3F6",
         "wellgab-white-2": "#b4b4b4",
         "wellgab-red-1": "#D42620",
+        "wellgab-green-1": "#0F973D",
         "button-nav": "rgba(0, 119, 136, 0.20)",
         gpt: "rgba(241, 243, 246, 0.80)",
       },

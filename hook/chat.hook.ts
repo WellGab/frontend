@@ -22,7 +22,7 @@ export function useGetChat(chatId: string) {
     async () => await axiosInstance.get("chats/" + chatId),
     {
       enabled: false,
-    }
+    },
   );
 }
 
@@ -49,7 +49,7 @@ export function useCreateChat() {
       onError: (error: any) => {
         toast.error(error?.response?.data?.detail ?? error.message);
       },
-    }
+    },
   );
 }
 
@@ -63,7 +63,7 @@ export function useSendChat(chatId: string) {
       onError: (error: any) => {
         toast.error(error?.response?.data?.detail ?? error.message);
       },
-    }
+    },
   );
 }
 
@@ -88,4 +88,32 @@ export function useCreateAnonChat() {
       },
     }
   );
+    
+export function useUpdateChat(chatId: string) {
+  const axiosInstance = useAuthAxios();
+
+  return useMutation(
+    (data: { topic: string }) => axiosInstance.patch("chats/" + chatId, data),
+    {
+      onSuccess: (data) => {
+        toast.success(data.data.message);
+      },
+      onError: (error: any) => {
+        toast.error(error?.response?.data?.detail ?? error.message);
+      },
+    },
+  );
+}
+
+export function useDeleteChat(chatId: string) {
+  const axiosInstance = useAuthAxios();
+
+  return useMutation(() => axiosInstance.delete("chats/" + chatId), {
+    onSuccess: (data) => {
+      toast.success(data.data.message);
+    },
+    onError: (error: any) => {
+      toast.error(error?.response?.data?.detail ?? error.message);
+    },
+  });
 }

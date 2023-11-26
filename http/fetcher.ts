@@ -21,8 +21,19 @@ $http.interceptors.response.use(
   }
 );
 
-// add token before making the request
-$http.interceptors.request.use();
+// const user = JSON.parse(localStorage.getItem("user")!);
+// // add token to the request interceptors before making the request
+// $http.interceptors.request.use(
+//   async (config) => {
+//     (config.headers.Accept = "application/json"),
+//       (config.headers.authorization = `Bearer ${user.token}`);
+//     config.timeout = 120000;
+//     return config;
+//   },
+//   (error) => {
+//     Promise.reject(error);
+//   },
+// );
 
 export const fetcherWithToken = (url: string, token: string) =>
   $http.get(url, {
