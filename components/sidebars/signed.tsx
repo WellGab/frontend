@@ -20,7 +20,7 @@ import Modal from "../modal";
 import { useDetectClickOutside } from "react-detect-click-outside";
 import Topic from "../menu/topic";
 import Close from "../icons/close";
-import Switch from "react-input-switch";
+
 import {
   SettingsType,
   useDeleteAccount,
@@ -28,6 +28,7 @@ import {
   useUpdateSettings,
 } from "@/hook/settings.hook";
 import ChatsBody from "../chats";
+import Switch from "../switch";
 
 export default function SignedSidebar() {
   const resetUser = useResetRecoilState(userAtom);
@@ -70,7 +71,7 @@ export default function SignedSidebar() {
 
   function openMenu(
     e: React.MouseEvent<HTMLSpanElement, MouseEvent>,
-    id: string,
+    id: string
   ) {
     e.stopPropagation();
     console.log("open menu");
@@ -98,7 +99,7 @@ export default function SignedSidebar() {
             onSuccess: () => {
               refetch();
             },
-          },
+          }
         );
       } else {
         setActiveChat(data?.data?.data[0].id);
@@ -128,12 +129,12 @@ export default function SignedSidebar() {
           }
           handleClose();
         },
-      },
+      }
     );
   };
 
   return (
-    <section className="h-screen fixed dark:bg-wellgab-black-4 bg-white py-5  w-[19vw] font-plusJakartaSans ">
+    <section className="h-screen fixed dark:bg-wellgab-black-4 bg-white py-5  w-[19vw] font-plusJakartaSans z-20">
       {isFetching || isLoading ? <PageLoader /> : null}
       <Link href={"/"}>
         <div className="flex flex-row items-center justify-center">
@@ -170,8 +171,8 @@ export default function SignedSidebar() {
           </button>
 
           <div
-            className={`transition-[max-height] h-full overflow-hidden duration-500 ${
-              showHistory ? "max-h-[80vh]" : "max-h-0"
+            className={`transition-[max-height] h-full  duration-500 ${
+              showHistory ? "max-h-[80vh]" : "max-h-0 hidden"
             }`}
           >
             <div className="w-full relative pl-6">
@@ -192,6 +193,7 @@ export default function SignedSidebar() {
                       onClose={() => setMenuOpen(false)}
                       topic={chat.topic}
                       chatId={chat.id}
+                      refetch={refetch}
                     />
                   )}
                 </Fragment>
@@ -262,24 +264,13 @@ export default function SignedSidebar() {
                   Clear chats after 90 days
                 </p>
                 <Switch
-                  value={userSettings.ninety_days_chat_limit ? 1 : 0}
-                  onChange={(
-                    e: React.MouseEvent<HTMLSpanElement, MouseEvent>,
-                  ) =>
+                  checked={userSettings.ninety_days_chat_limit ? true : false}
+                  update={() =>
                     setUserSettings((prev) => ({
                       ...prev,
                       ninety_days_chat_limit: !prev.ninety_days_chat_limit,
                     }))
                   }
-                  styles={{
-                    track: (checked: number) => ({
-                      backgroundColor: checked ? "#0F973D" : "grey",
-                      width: 40, 
-                    }),
-                    button: (checked: boolean) => ({
-                      backgroundColor: checked ? "white" : "white",
-                    }),
-                  }}
                 />
               </div>
               <div className="flex flex-row justify-between w-full mb-6">

@@ -33,6 +33,7 @@ const config: Config = {
         "wellgab-green-1": "#0F973D",
         "button-nav": "rgba(0, 119, 136, 0.20)",
         gpt: "rgba(241, 243, 246, 0.80)",
+        switch: "rgba(15, 151, 61, 1)",
       },
       fontFamily: {
         workSans: ["Work Sans"],

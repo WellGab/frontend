@@ -42,13 +42,13 @@ function ChatsBody({
         </div>
       </div>
 
-      {!!menuOpen && (
+      {/* {!!menuOpen && (
         <Topic
           onClose={() => setMenuOpen(false)}
           topic={chat.topic}
           chatId={chat.id}
         />
-      )}
+      )} */}
     </div>
   );
 }
