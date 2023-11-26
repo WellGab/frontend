@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 
 const TypingSpan = ({ text, type }: { text: string; type: boolean }) => {
   const ref = useRef<HTMLSpanElement>(null);

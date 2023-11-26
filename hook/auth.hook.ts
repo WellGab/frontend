@@ -11,26 +11,23 @@ export function useLogin() {
   const router = useRouter();
 
   const setUser = useSetRecoilState(userAtom);
-  return useMutation(
-    (login: signupType) => $http.post("/api/v1/auth/login", login),
-    {
-      onSuccess: (data) => {
-        setUser(data.data?.data);
-        toast.success(data.data.message);
-        router.push("/signed/chat");
-      },
-      onError: (error: any) => {
-        toast.error(error?.response?.data?.detail ?? error.message);
-      },
-    }
-  );
+  return useMutation((login: signupType) => $http.post("auth/login", login), {
+    onSuccess: (data) => {
+      setUser(data.data?.data);
+      toast.success(data.data.message);
+      router.push("/signed/chat");
+    },
+    onError: (error: any) => {
+      toast.error(error?.response?.data?.detail ?? error.message);
+    },
+  });
 }
 
 export function useSignup() {
   const router = useRouter();
   const setUser = useSetRecoilState(userAtom);
   return useMutation(
-    (signup: signupType) => $http.post("/api/v1/auth/sign-up", signup),
+    (signup: signupType) => $http.post("auth/sign-up", signup),
     {
       onSuccess: (data) => {
         setUser(data.data?.data);
@@ -48,8 +45,7 @@ export function useSocialAuth() {
   const router = useRouter();
   const setUser = useSetRecoilState(userAtom);
   return useMutation(
-    (tokenData: socialAuthType) =>
-      $http.post("/api/v1/auth/social-auth", tokenData),
+    (tokenData: socialAuthType) => $http.post("auth/social-auth", tokenData),
     {
       onSuccess: (data) => {
         setUser(data.data?.data);
