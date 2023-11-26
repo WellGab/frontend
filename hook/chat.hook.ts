@@ -40,3 +40,17 @@ export function useCreateChat() {
     }
   );
 }
+
+export function useSendChat(chatId: string) {
+  const axiosInstance = useAuthAxios();
+
+  return useMutation(
+    (data: { message: string }) =>
+      axiosInstance.post(`chats/${chatId}/messages`, data),
+    {
+      onError: (error: any) => {
+        toast.error(error?.response?.data?.detail ?? error.message);
+      },
+    }
+  );
+}

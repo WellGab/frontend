@@ -5,7 +5,12 @@ import { ChatInput } from "@/components/input";
 import { MessageLoader, PageLoader } from "@/components/loader";
 import TypingSpan from "@/components/typingSpan";
 import withAuth from "@/hocs/withAuth.hoc";
-import { useCreateChat, useGetChat, useGetChats } from "@/hook/chat.hook";
+import {
+  useCreateChat,
+  useGetChat,
+  useGetChats,
+  useSendChat,
+} from "@/hook/chat.hook";
 import { useSocket } from "@/hook/socket.hook";
 import userAtom from "@/atoms/user.atom";
 
@@ -24,25 +29,28 @@ function Page() {
     []
   );
   const activeChatId = useRecoilValue(activeChatIdAtom);
-  const { socket, sendMessage } = useSocket(token, activeChatId);
 
-  const [messageLoading, setMessageLoading] = useState(false);
+  const { mutate, isLoading } = useSendChat(activeChatId);
 
   function onSend() {
     if (value.length < 1) {
       toast.error("Please enter a message");
     }
     setMessages((prev) => [...prev, { message: value, gpt: false }]);
-    sendMessage(value);
-    setMessageLoading(true);
-
     setValue("");
+    mutate(
+      { message: value },
+      {
+        onSuccess: (data) => {
+          setMessages((prev) => [
+            ...prev,
+            { message: data?.data?.data, gpt: true },
+          ]);
+        },
+      }
+    );
   }
 
-  socket.on("response", (dat) => {
-    setMessages((prev) => [...prev, { message: dat, gpt: true }]);
-    setMessageLoading(false);
-  });
   const { data, isFetching, refetch } = useGetChat(activeChatId);
 
   useEffect(() => {
@@ -111,7 +119,7 @@ function Page() {
             </p>
           </div>
         )}
-        {messageLoading ? <MessageLoader /> : null}
+        {isLoading ? <MessageLoader /> : null}
         <div ref={scrollRef} />
       </div>
 
