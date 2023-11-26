@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 
-export const useScrollToBottom = (factor: any) => {
+export const useScrollToBottom = (factor: React.RefObject<HTMLDivElement>) => {
   const ref: React.LegacyRef<HTMLDivElement> | undefined = useRef(null);
 
   const scrollToBottom = () => {
@@ -8,7 +8,14 @@ export const useScrollToBottom = (factor: any) => {
   };
 
   useEffect(() => {
-    scrollToBottom();
-  }, [factor]);
+    if (!factor.current) return;
+
+    let resizeObserver = new ResizeObserver(() => {
+      scrollToBottom();
+    });
+
+    resizeObserver.observe(factor.current);
+  });
+
   return ref;
 };

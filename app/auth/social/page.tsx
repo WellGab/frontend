@@ -17,6 +17,8 @@ const Page = () => {
             router.push("/auth/login");
           },
         });
+      } else {
+        router.push("/auth/login");
       }
     })();
   }, []); // eslint-disable-line

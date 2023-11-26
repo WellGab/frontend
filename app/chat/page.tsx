@@ -4,7 +4,7 @@ import { ChatInput } from "@/components/input";
 import NavBar from "@/components/navbar";
 import TypingSpan from "@/components/typingSpan";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import WithoutAuth from "@/hocs/withoutAuth.hoc";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { anonChatIdAtom } from "@/atoms/chat.atom";
@@ -78,7 +78,9 @@ const Page = () => {
     }
   }, [data]);
 
-  const scrollRef = useScrollToBottom(messages);
+  const messageBoxRef = useRef<HTMLDivElement>(null);
+
+  const scrollRef = useScrollToBottom(messageBoxRef);
 
   return (
     <section className="dark:bg-[#202124] min-h-screen pb-14 ">
@@ -110,7 +112,10 @@ const Page = () => {
                       WellGab Health Assistant
                     </p>
 
-                    <div className="w-full bg-white dark:bg-[#47494F] p-4 mt-2 rounded-lg dark:text-gpt text-[#4C4C4C] border-[0.3px]  dark:border-transparent whitespace-pre-wrap">
+                    <div
+                      className="w-full bg-white dark:bg-[#47494F] p-4 mt-2 rounded-lg dark:text-gpt text-[#4C4C4C] border-[0.3px]  dark:border-transparent whitespace-pre-wrap"
+                      ref={messageBoxRef}
+                    >
                       <TypingSpan
                         text={message.message}
                         type={index === messages.length - 1}
