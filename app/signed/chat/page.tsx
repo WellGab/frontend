@@ -101,8 +101,8 @@ function Page() {
                   </div>
                 </div>
               ) : (
-                <div className="w-[80%] ml-auto">
-                  <p className=" text-xs font-medium text-right">You</p>
+                <div className="w-[80%] ml-auto mb-3">
+                  <p className=" text-xs font-medium text-right ">You</p>
 
                   <div className="w-full border-[0.3px] border-[#078] dark:border-transparent bg-[#EEF6F7] dark:bg-[#47494F] p-4 mt-2 rounded-lg dark:text-gpt text-[#4C4C4C]">
                     {message.message}

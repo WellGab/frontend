@@ -51,10 +51,8 @@ export const ChatInput = (
 
   function handleListening() {
     if (!listening) {
-      // resetTranscript();
       SpeechRecognition.startListening();
     } else {
-      // resetTranscript();
       SpeechRecognition.stopListening();
     }
   }

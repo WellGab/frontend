@@ -276,7 +276,7 @@ export default function SignedSidebar() {
           <div
             className={`transition-[max-height] h-full  duration-500 ${
               showHistory ? "max-h-[80vh]" : "max-h-0 hidden"
-            } ${!sidebarOpen ? "hidden" : ""}`}
+            } ${!sidebarOpen ? "hidden md:flex" : ""}`}
           >
             <div className="w-full relative pl-6">
               {(chats || []).map((chat) => (
@@ -434,7 +434,7 @@ export default function SignedSidebar() {
                   <option value="dark">Dark Mode</option>
                 </select>
               </div>
-              <div className="flex flex-row justify-between w-full">
+              <div className="flex md:flex-row flex-col justify-between w-full">
                 <p>Delete Account</p>
                 <button
                   onClick={() => setDeleteModal(() => true)}
@@ -448,7 +448,7 @@ export default function SignedSidebar() {
         </div>
       </Modal>
       <Modal open={deleteModal} handleClose={() => setDeleteModal(() => false)}>
-        <div className="bg-white dark:bg-[#202124] rounded-lg md:w-[40vw] w-[80vw] px-6 py-6 pb-24">
+        <div className="bg-white dark:bg-[#202124] rounded-lg md:w-[40vw] w-[80vw] px-6 py-6">
           <div className="flex flex-col justify-between w-full mb-5">
             <p className="text-2xl font-normal mb-3">Delete your account</p>
             <form>
@@ -458,15 +458,15 @@ export default function SignedSidebar() {
               >
                 Enter your password to confirm.
               </label>
-
+              <br />
               <input
                 type="password"
-                className="w-full rounded-md p-2 bg-transparent border border-wellgab-gray-1"
+                className="w-full rounded-md p-2 mt-4 bg-transparent border border-wellgab-gray-1"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
             </form>
-            <div className="flex flex-row gap-4 pt-16">
+            <div className="flex md:flex-row flex-col gap-4 pt-9">
               <button
                 onClick={() => setDeleteModal(() => false)}
                 className="flex-1 py-2 px-4 rounded-md border border-wellgab-green text-wellgab-green"
@@ -497,7 +497,7 @@ export default function SignedSidebar() {
             placeholder="I have a headache"
             onChange={(e) => setNewTopic(e.target.value)}
           />
-          <div className=" pt-16 gap-x-3 flex justify-end">
+          <div className=" pt-16 gap-3 flex md:flex-row flex-col justify-end">
             <button
               className=" border border-[#078] rounded-lg text-[#078] px-8 py-3 mon-hover"
               onClick={() => setRenameModal(() => false)}
@@ -526,7 +526,7 @@ export default function SignedSidebar() {
             <p className="text-xl font-normal text-wellgab-white-1">
               {`This action will delete ${newTopic} and it can't be restored after.`}
             </p>
-            <div className="flex flex-row gap-4 justify-end pt-4">
+            <div className="flex md:flex-row flex-col gap-4 justify-end pt-4">
               <button
                 onClick={() => setDeleteModal2(() => false)}
                 className="py-2 px-6 rounded-md bg-wellgab-green text-white"
