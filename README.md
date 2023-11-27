@@ -34,9 +34,15 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ## Usage
 
+- you can just head over to chat
+- use the chatbox to send questiosn
+- sign in to get more features
 
 ## Technologies Used
 
+- NextJS
+- Tailwindcss
+- Recoil
+- React-Query
 
 ## License
-
