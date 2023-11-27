@@ -6,10 +6,7 @@ import { ChatInput } from "@/components/input";
 import { MessageLoader, PageLoader } from "@/components/loader";
 import TypingSpan from "@/components/typingSpan";
 import withAuth from "@/hocs/withAuth.hoc";
-import {
-  useGetChat,
-  useSendChat,
-} from "@/hook/chat.hook";
+import { useGetChat, useSendChat } from "@/hook/chat.hook";
 
 import React, { useEffect, useRef, useState } from "react";
 import { useRecoilValue } from "recoil";
@@ -17,11 +14,10 @@ import { toast } from "react-hot-toast";
 import { useScrollToBottom } from "@/hook/util.hook";
 
 function Page() {
-  
   const [isListening, setListening] = useState(false);
   const [value, setValue] = useState("");
   const [messages, setMessages] = useState<{ message: string; gpt: boolean }[]>(
-    [],
+    []
   );
   const activeChatId = useRecoilValue(activeChatIdAtom);
 
@@ -42,7 +38,7 @@ function Page() {
             { message: data?.data?.data, gpt: true },
           ]);
         },
-      },
+      }
     );
   }
 
@@ -63,7 +59,7 @@ function Page() {
             { message: m.message, gpt: false },
             { message: m.reply, gpt: true },
           ]);
-        },
+        }
       );
 
       setMessages(new_messages);
@@ -125,6 +121,7 @@ function Page() {
         onSend={onSend}
         value={value}
         onChange={(e) => setValue(e.target.value)}
+        setInput={setValue}
         // sendDisabled={false}
       />
     </div>

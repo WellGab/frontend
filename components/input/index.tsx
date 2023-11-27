@@ -6,13 +6,12 @@ import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
 import { toast } from "react-hot-toast";
-import { IconContext } from "react-icons";
-import { FaMicrophoneAltSlash, FaMicrophone } from "react-icons/fa";
 import MicActiveIcon from "../icons/mic-active";
 
 interface ChatInputProps {
   onSend: () => void;
   sendDisabled?: boolean;
+  setInput?: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export const ChatInput = (
@@ -42,7 +41,7 @@ export const ChatInput = (
       toast.error("Your browser does not support speech recognition");
       return;
     }
-    console.log("transcript", transcript);
+    props.setInput?.(transcript);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [listening]);
 
