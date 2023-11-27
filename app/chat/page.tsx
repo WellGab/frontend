@@ -22,7 +22,7 @@ import { v4 } from "uuid";
 const Page = () => {
   const [value, setValue] = useState("");
   const [messages, setMessages] = useState<{ message: string; gpt: boolean }[]>(
-    [],
+    []
   );
   const [anonChatId, setAnonChatId] = useRecoilState(anonChatIdAtom);
 
@@ -44,7 +44,7 @@ const Page = () => {
             { message: data?.data?.data, gpt: true },
           ]);
         },
-      },
+      }
     );
   }
 
@@ -72,7 +72,7 @@ const Page = () => {
             { message: m.message, gpt: false },
             { message: m.reply, gpt: true },
           ]);
-        },
+        }
       );
 
       setMessages(new_messages);
@@ -143,6 +143,7 @@ const Page = () => {
               onSend={onSend}
               value={value}
               onChange={(e) => setValue(e.target.value)}
+              setInput={setValue}
             />
 
             <div className=" w-full bg-bg-utilize rounded-xl py-5">
