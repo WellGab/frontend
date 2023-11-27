@@ -31,12 +31,16 @@ const Page = () => {
 
   function onSend() {
     if (value.length < 1) {
-      toast.error("Please enter a message");
+      return toast.error("Please enter a message");
     }
-    setMessages((prev) => [...prev, { message: value, gpt: false }]);
+    onSendWithValue(value);
+  }
+
+  function onSendWithValue(val: string) {
+    setMessages((prev) => [...prev, { message: val, gpt: false }]);
     setValue("");
     mutate(
-      { message: value },
+      { message: val },
       {
         onSuccess: (data) => {
           setMessages((prev) => [
@@ -141,9 +145,11 @@ const Page = () => {
           <div className=" w-full space-y-10">
             <ChatInput
               onSend={onSend}
+              onSendWithValue={onSendWithValue}
               value={value}
               onChange={(e) => setValue(e.target.value)}
               setInput={setValue}
+              sendDisabled={isLoading}
             />
 
             <div className=" w-full bg-bg-utilize rounded-xl py-5">
