@@ -368,7 +368,7 @@ export default function SignedSidebar() {
         </div>
       </Modal> */}
       <Modal open={settingsModal} handleClose={handleSettingsClose}>
-        <div className="bg-white dark:bg-[#202124] rounded-lg w-[40vw] px-6 py-6 pb-24">
+        <div className="bg-white dark:bg-[#202124] rounded-lg md:w-[40vw] w-[80vw] px-6 py-6 pb-24">
           <div className="flex flex-row justify-between w-full mb-5">
             <p className="text-2xl font-normal">Settings</p>
             <span
@@ -445,7 +445,7 @@ export default function SignedSidebar() {
         </div>
       </Modal>
       <Modal open={deleteModal} handleClose={() => setDeleteModal(() => false)}>
-        <div className="bg-white dark:bg-[#202124] rounded-lg w-[40vw] px-6 py-6 pb-24">
+        <div className="bg-white dark:bg-[#202124] rounded-lg md:w-[40vw] w-[80vw] px-6 py-6 pb-24">
           <div className="flex flex-col justify-between w-full mb-5">
             <p className="text-2xl font-normal mb-3">Delete your account</p>
             <form>
@@ -482,7 +482,7 @@ export default function SignedSidebar() {
       </Modal>
 
       <Modal open={renameModal} handleClose={() => setRenameModal(() => false)}>
-        <div className="bg-white dark:bg-[#202124] rounded-lg w-[40vw] p-6 ">
+        <div className="bg-white dark:bg-[#202124] rounded-lg md:w-[40vw] w-[80vw] p-6 ">
           <p className=" text-2xl">Rename this chat</p>
           <p className="text-xl font-normal text-wellgab-white-1 my-3">
             Are you sure you want to rename this chat? This action cannot be
@@ -515,7 +515,7 @@ export default function SignedSidebar() {
         open={deleteModal2}
         handleClose={() => setDeleteModal2(() => false)}
       >
-        <div className="bg-white dark:bg-[#202124] rounded-lg w-[40vw] px-6 py-6 pb-4">
+        <div className="bg-white dark:bg-[#202124] rounded-lg md:w-[40vw] w-[80vw] px-6 py-6 pb-4">
           <div className="flex flex-col gap-4">
             <h1 className="text-2xl font-bold">
               Do you want to delete this chat?

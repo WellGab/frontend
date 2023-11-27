@@ -12,8 +12,6 @@ import { FaMicrophoneAltSlash, FaMicrophone } from "react-icons/fa";
 interface ChatInputProps {
   onSend: () => void;
   sendDisabled?: boolean;
-  isListening?: boolean;
-  setListening: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const ChatInput = (

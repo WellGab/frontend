@@ -125,8 +125,6 @@ function Page() {
         onSend={onSend}
         value={value}
         onChange={(e) => setValue(e.target.value)}
-        isListening={isListening}
-        setListening={setListening}
         // sendDisabled={false}
       />
     </div>
