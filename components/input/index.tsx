@@ -8,6 +8,7 @@ import SpeechRecognition, {
 import { toast } from "react-hot-toast";
 import { IconContext } from "react-icons";
 import { FaMicrophoneAltSlash, FaMicrophone } from "react-icons/fa";
+import MicActiveIcon from "../icons/mic-active";
 
 interface ChatInputProps {
   onSend: () => void;
@@ -19,7 +20,7 @@ export const ChatInput = (
     React.InputHTMLAttributes<HTMLInputElement>,
     HTMLInputElement
   > &
-    ChatInputProps,
+    ChatInputProps
 ) => {
   const { onSend, sendDisabled, ...rest } = props;
   const [divActive, setDivActive] = useState(false);
@@ -75,19 +76,7 @@ export const ChatInput = (
           }}
         />
         <button type="button" onClick={() => handleListening()} className="">
-          {!listening ? (
-            <IconContext.Provider
-              value={{ size: "1.5em", className: "md:flex hidden" }}
-            >
-              <FaMicrophone />
-            </IconContext.Provider>
-          ) : (
-            <IconContext.Provider
-              value={{ size: "1.5em", className: "md:flex hidden" }}
-            >
-              <FaMicrophoneAltSlash />
-            </IconContext.Provider>
-          )}
+          {listening ? <MicActiveIcon /> : <MicIcon />}
         </button>
       </div>
       <button type="submit" disabled={props.sendDisabled}>
