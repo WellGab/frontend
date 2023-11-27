@@ -21,7 +21,7 @@ export default function Topic({
   return (
     <>
       <div
-        className="bg-white dark:bg-wellgab-black-4 p-2 absolute rounded-md z-20 w-52 top-12 left-52 shadow-md"
+        className="bg-white dark:bg-wellgab-black-4 p-2 absolute rounded-md z-20 w-52 top-[3rem] md:left-[13rem] left-[4rem] shadow-md"
         ref={ref}
       >
         <button

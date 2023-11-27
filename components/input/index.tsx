@@ -47,12 +47,9 @@ export const ChatInput = (
 
   function handleListening() {
     if (!listening) {
-      // resetTranscript();
       SpeechRecognition.startListening();
     } else {
-      // resetTranscript();
       SpeechRecognition.stopListening();
-      console.log("What's the transcript", transcript)
     }
   }
 
