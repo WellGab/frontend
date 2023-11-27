@@ -9,7 +9,7 @@ interface ChatsProps {
   };
   activeChat: string;
   setActiveChat: (id: string) => void;
-  openMenu: (e: any, id: string) => void;
+  openMenu: (e: any) => void;
   ref: React.MutableRefObject<null>;
   menuOpen: boolean;
   setMenuOpen: (open: boolean) => void;

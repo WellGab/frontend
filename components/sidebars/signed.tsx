@@ -48,10 +48,13 @@ export default function SignedSidebar() {
     display: "light",
   });
 
+  const [updated, setUpdated] = useState(false);
+
   const {
     data: settings,
     error,
     isLoading: settingsLoading,
+    refetch: settingsRefresh,
   } = useGetSettings();
   const { mutate: updateSettings } = useUpdateSettings();
   const { mutate: deleteAccount } = useDeleteAccount();
@@ -62,6 +65,8 @@ export default function SignedSidebar() {
 
   useEffect(() => {
     if (settings) {
+      setUpdated(false);
+
       setUserSettings(settings.data.data);
     }
   }, [settings]);
@@ -91,29 +96,30 @@ export default function SignedSidebar() {
           toast.success("Account deleted successfully");
           logout();
         },
-        onError: (error) => {
+        onError: (error: any) => {
           toast.error(error?.response?.data?.detail ?? error?.message);
         },
-      },
+      }
     );
   }
 
-  function handleUpdateSettings(memoizedUserSettings: SettingsType) {
-    updateSettings(memoizedUserSettings, {
+  function handleUpdateSettings() {
+    updateSettings(userSettings, {
       onSuccess: () => {
         toast.success("Settings updated successfully");
+        settingsRefresh();
       },
-      onError: (error) => {
+      onError: (error: any) => {
         toast.error(error?.response?.data?.detail ?? error?.message);
       },
     });
   }
 
-  const memoizedUserSettings = useMemo(() => userSettings, [userSettings]);
-
   useEffect(() => {
-    handleUpdateSettings(memoizedUserSettings);
-  }, [userSettings]); // eslint-disable-line
+    if (updated) {
+      handleUpdateSettings();
+    }
+  }, [userSettings, updated]); // eslint-disable-line
 
   const chats = useRecoilValue(chatAtom);
   const [activeChat, setActiveChat] = useRecoilState(activeChatIdAtom);
@@ -130,7 +136,7 @@ export default function SignedSidebar() {
             onSuccess: () => {
               refetch();
             },
-          },
+          }
         );
       } else {
         setActiveChat(data?.data?.data[0].id);
@@ -160,7 +166,7 @@ export default function SignedSidebar() {
           }
           handleClose();
         },
-      },
+      }
     );
   };
 
@@ -296,24 +302,26 @@ export default function SignedSidebar() {
                 </p>
                 <Switch
                   checked={userSettings.ninety_days_chat_limit ? true : false}
-                  update={() =>
+                  update={() => {
+                    setUpdated(true);
                     setUserSettings((prev) => ({
                       ...prev,
                       ninety_days_chat_limit: !prev.ninety_days_chat_limit,
-                    }))
-                  }
+                    }));
+                  }}
                 />
               </div>
               <div className="flex flex-row justify-between w-full mb-6">
                 <p>Text Size</p>
                 <select
                   value={userSettings.text_size}
-                  onChange={(e) =>
+                  onChange={(e) => {
+                    setUpdated(true);
                     setUserSettings((prev) => ({
                       ...prev,
                       text_size: e.target.value,
-                    }))
-                  }
+                    }));
+                  }}
                   className="bg-transparent"
                 >
                   <option value="small">Small</option>
@@ -325,12 +333,13 @@ export default function SignedSidebar() {
                 <p>Display</p>
                 <select
                   value={userSettings.display}
-                  onChange={(e) =>
+                  onChange={(e) => {
+                    setUpdated(true);
                     setUserSettings((prev) => ({
                       ...prev,
                       display: e.target.value,
-                    }))
-                  }
+                    }));
+                  }}
                   className="bg-transparent"
                 >
                   <option value="light">Light Mode</option>
@@ -361,7 +370,7 @@ export default function SignedSidebar() {
               >
                 Enter your password to confirm.
               </label>
-              
+
               <input
                 type="password"
                 className="w-full rounded-md p-2 bg-transparent border border-wellgab-gray-1"
