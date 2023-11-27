@@ -219,7 +219,7 @@ export default function SignedSidebar() {
 
   return (
     <section
-      className={`h-screen fixed dark:bg-wellgab-black-4 bg-white py-5 md:w-[19vw] ${
+      className={`h-screen fixed dark:bg-wellgab-black-4 bg-white py-5 md:w-[280px] ${
         sidebarOpen ? "w-[250px]" : "w-[50px]"
       } font-plusJakartaSans z-20`}
     >
