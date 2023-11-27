@@ -1,4 +1,5 @@
 "use client";
+import "regenerator-runtime/runtime";
 import { activeChatIdAtom } from "@/atoms/chat.atom";
 import Logo from "@/components/icons/logo";
 import { ChatInput } from "@/components/input";
@@ -6,26 +7,21 @@ import { MessageLoader, PageLoader } from "@/components/loader";
 import TypingSpan from "@/components/typingSpan";
 import withAuth from "@/hocs/withAuth.hoc";
 import {
-  useCreateChat,
   useGetChat,
-  useGetChats,
   useSendChat,
 } from "@/hook/chat.hook";
-import { useSocket } from "@/hook/socket.hook";
-import userAtom from "@/atoms/user.atom";
 
 import React, { useEffect, useRef, useState } from "react";
 import { useRecoilValue } from "recoil";
 import { toast } from "react-hot-toast";
 import { useScrollToBottom } from "@/hook/util.hook";
-// import SpeechRecognition, {
-//   useSpeechRecognition,
-// } from "react-speech-recognition";
 
 function Page() {
+  
+  const [isListening, setListening] = useState(false);
   const [value, setValue] = useState("");
   const [messages, setMessages] = useState<{ message: string; gpt: boolean }[]>(
-    []
+    [],
   );
   const activeChatId = useRecoilValue(activeChatIdAtom);
 
@@ -46,7 +42,7 @@ function Page() {
             { message: data?.data?.data, gpt: true },
           ]);
         },
-      }
+      },
     );
   }
 
@@ -67,7 +63,7 @@ function Page() {
             { message: m.message, gpt: false },
             { message: m.reply, gpt: true },
           ]);
-        }
+        },
       );
 
       setMessages(new_messages);

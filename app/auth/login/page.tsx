@@ -42,7 +42,7 @@ export default function Page() {
 
     if (!validated.success) {
       setShow(true);
-      setMessage(validated.error.message);
+      setMessage(validated.error.errors[0].message);
       return;
     }
 

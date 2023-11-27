@@ -34,10 +34,13 @@ import {
 } from "@/hook/settings.hook";
 import ChatsBody from "../chats";
 import Switch from "../switch";
+import { CiMenuFries } from "react-icons/ci";
+import { IoMdClose } from "react-icons/io";
 
 export default function SignedSidebar() {
   const resetUser = useResetRecoilState(userAtom);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const ref = useDetectClickOutside({
     onTriggered: () => setMenuOpen(false),
   });
@@ -90,8 +93,10 @@ export default function SignedSidebar() {
   }
 
   function handleDeleteAccount() {
-    // confirm delete, trigger conformation modal
-    // modal to take password
+    if (password.length < 1) {
+      toast.error("Please enter your password");
+      return;
+    }
     deleteAccount(
       {
         password: password,
@@ -104,7 +109,7 @@ export default function SignedSidebar() {
         onError: (error: any) => {
           toast.error(error?.response?.data?.detail ?? error?.message);
         },
-      }
+      },
     );
   }
 
@@ -141,7 +146,7 @@ export default function SignedSidebar() {
             onSuccess: () => {
               refetch();
             },
-          }
+          },
         );
       } else {
         setActiveChat(data?.data?.data[0].id);
@@ -169,7 +174,7 @@ export default function SignedSidebar() {
           }
           handleClose();
         },
-      }
+      },
     );
   };
 
@@ -194,7 +199,7 @@ export default function SignedSidebar() {
         onError: (error) => {
           toast.error(error?.response?.data?.detail ?? error?.message);
         },
-      }
+      },
     );
     setRenameModal(() => false);
   }
@@ -213,7 +218,11 @@ export default function SignedSidebar() {
   }
 
   return (
-    <section className="h-screen fixed dark:bg-wellgab-black-4 bg-white py-5  w-[19vw] font-plusJakartaSans z-20">
+    <section
+      className={`h-screen fixed dark:bg-wellgab-black-4 bg-white py-5 md:w-[19vw] ${
+        sidebarOpen ? "w-[250px]" : "w-[50px]"
+      } font-plusJakartaSans z-20`}
+    >
       {isFetching || isLoading ? <PageLoader /> : null}
       <Link href={"/"}>
         <div className="flex flex-row items-center justify-center">
@@ -224,7 +233,7 @@ export default function SignedSidebar() {
         </div>
       </Link>
 
-      <div className="flex flex-col items-start justify-between h-[90%] px-4">
+      <div className="flex flex-col items-start justify-between h-[90%] px-4 w-max">
         <div className="pt-14 w-full">
           <button
             className="flex flex-row gap-3 item-center py-3 mb-3 hover:scale-105 transition cursor-pointer md:px-2 rounded w-full"
@@ -232,7 +241,13 @@ export default function SignedSidebar() {
             onClick={() => handleSubmit()}
           >
             <EditIcon />
-            <span className="flex-[2] text-left md:flex hidden">New Chat</span>
+            <span
+              className={`flex-[2] text-left md:flex ${
+                !sidebarOpen ? "hidden" : ""
+              }`}
+            >
+              New Chat
+            </span>
           </button>
 
           <button
@@ -241,7 +256,13 @@ export default function SignedSidebar() {
             className="flex flex-row gap-3 items-center py-3 mb-3 hover:scale-105 transition cursor-pointer md:px-2 rounded w-full"
           >
             <HistoryIcon />
-            <span className="flex-[2] text-left md:flex hidden">History</span>
+            <span
+              className={`flex-[2] text-left md:flex ${
+                !sidebarOpen ? "hidden" : ""
+              }`}
+            >
+              History
+            </span>
             <IconContext.Provider
               value={{ size: "1.8em", className: "md:flex hidden" }}
             >
@@ -252,7 +273,7 @@ export default function SignedSidebar() {
           <div
             className={`transition-[max-height] h-full  duration-500 ${
               showHistory ? "max-h-[80vh]" : "max-h-0 hidden"
-            }`}
+            } ${!sidebarOpen ? "hidden" : ""}`}
           >
             <div className="w-full relative pl-6">
               {(chats || []).map((chat) => (
@@ -272,9 +293,6 @@ export default function SignedSidebar() {
                   {!!menuOpen && (
                     <Topic
                       onClose={() => setMenuOpen(false)}
-                      topic={chat.topic}
-                      chatId={chat.id}
-                      refetch={refetch}
                       setDeleteModal={setDeleteModal2}
                       setRenameModal={setRenameModal}
                     />
@@ -291,14 +309,35 @@ export default function SignedSidebar() {
             onClick={() => setSettingsModal(true)}
           >
             <SettingIcon />
-            <span className="flex-[2] text-left md:flex hidden">Settings</span>
+            <span
+              className={`flex-[2] text-left md:flex ${
+                !sidebarOpen ? "hidden" : ""
+              }`}
+            >
+              Settings
+            </span>
           </button>
           <button
             className="flex flex-row gap-3 item-center py-3 mb-3 hover:scale-105 transition cursor-pointer w-full"
             onClick={() => logout()}
           >
             <LogoutIcon />
-            <span className="flex-[2] text-left md:flex hidden">Logout</span>
+            <span
+              className={`flex-[2] text-left md:flex ${
+                !sidebarOpen ? "hidden" : ""
+              }`}
+            >
+              Logout
+            </span>
+          </button>
+          <button
+            title="toggle sidebar"
+            className="flex flex-row gap-3 item-center py-3 mb-3 hover:scale-105 transition cursor-pointer w-full md:hidden"
+            onClick={() => setSidebarOpen((prev) => !prev)}
+          >
+            <IconContext.Provider value={{ size: "1.2em" }}>
+              {sidebarOpen ? <IoMdClose /> : <CiMenuFries />}
+            </IconContext.Provider>
           </button>
         </div>
       </div>
@@ -329,7 +368,7 @@ export default function SignedSidebar() {
         </div>
       </Modal> */}
       <Modal open={settingsModal} handleClose={handleSettingsClose}>
-        <div className="bg-white dark:bg-[#202124] rounded-lg w-[40vw] px-6 py-6 pb-24">
+        <div className="bg-white dark:bg-[#202124] rounded-lg md:w-[40vw] w-[80vw] px-6 py-6 pb-24">
           <div className="flex flex-row justify-between w-full mb-5">
             <p className="text-2xl font-normal">Settings</p>
             <span
@@ -406,7 +445,7 @@ export default function SignedSidebar() {
         </div>
       </Modal>
       <Modal open={deleteModal} handleClose={() => setDeleteModal(() => false)}>
-        <div className="bg-white dark:bg-[#202124] rounded-lg w-[40vw] px-6 py-6 pb-24">
+        <div className="bg-white dark:bg-[#202124] rounded-lg md:w-[40vw] w-[80vw] px-6 py-6 pb-24">
           <div className="flex flex-col justify-between w-full mb-5">
             <p className="text-2xl font-normal mb-3">Delete your account</p>
             <form>
@@ -443,7 +482,7 @@ export default function SignedSidebar() {
       </Modal>
 
       <Modal open={renameModal} handleClose={() => setRenameModal(() => false)}>
-        <div className="bg-white dark:bg-[#202124] rounded-lg w-[40vw] p-6 ">
+        <div className="bg-white dark:bg-[#202124] rounded-lg md:w-[40vw] w-[80vw] p-6 ">
           <p className=" text-2xl">Rename this chat</p>
           <p className="text-xl font-normal text-wellgab-white-1 my-3">
             Are you sure you want to rename this chat? This action cannot be
@@ -476,7 +515,7 @@ export default function SignedSidebar() {
         open={deleteModal2}
         handleClose={() => setDeleteModal2(() => false)}
       >
-        <div className="bg-white dark:bg-[#202124] rounded-lg w-[40vw] px-6 py-6 pb-4">
+        <div className="bg-white dark:bg-[#202124] rounded-lg md:w-[40vw] w-[80vw] px-6 py-6 pb-4">
           <div className="flex flex-col gap-4">
             <h1 className="text-2xl font-bold">
               Do you want to delete this chat?

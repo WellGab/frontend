@@ -1,25 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
 import Delete from "../icons/delete";
 import Rename from "../icons/rename";
-import { useDeleteChat, useUpdateChat } from "@/hook/chat.hook";
-import { toast } from "react-hot-toast";
-import Modal from "../modal";
 import { useDetectClickOutside } from "react-detect-click-outside";
 
 interface MenuProps {
   onClose: () => void;
-  chatId: string;
-  topic: string;
-  refetch: () => void;
   setDeleteModal: React.Dispatch<React.SetStateAction<boolean>>;
   setRenameModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function Topic({
   onClose,
-  chatId,
-  topic,
-  refetch,
   setDeleteModal,
   setRenameModal,
 }: MenuProps) {

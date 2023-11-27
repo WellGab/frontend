@@ -5,7 +5,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <main className="">
       <SignedSidebar />
-      <section className="ml-[19vw] min-h-screen bg-[#F5FAFA] dark:bg-[#202124]">
+      <section className="md:ml-[250px] ml-[45px] min-h-screen bg-[#F5FAFA] dark:bg-[#202124]">
         {children}
       </section>
     </main>

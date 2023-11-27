@@ -1,4 +1,5 @@
 "use client";
+import "regenerator-runtime/runtime";
 import WarningIcon from "@/components/icons/warning";
 import { ChatInput } from "@/components/input";
 import NavBar from "@/components/navbar";
@@ -21,7 +22,7 @@ import { v4 } from "uuid";
 const Page = () => {
   const [value, setValue] = useState("");
   const [messages, setMessages] = useState<{ message: string; gpt: boolean }[]>(
-    []
+    [],
   );
   const [anonChatId, setAnonChatId] = useRecoilState(anonChatIdAtom);
 
@@ -43,7 +44,7 @@ const Page = () => {
             { message: data?.data?.data, gpt: true },
           ]);
         },
-      }
+      },
     );
   }
 
@@ -71,7 +72,7 @@ const Page = () => {
             { message: m.message, gpt: false },
             { message: m.reply, gpt: true },
           ]);
-        }
+        },
       );
 
       setMessages(new_messages);
