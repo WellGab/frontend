@@ -14,7 +14,12 @@ import { useRecoilState, useRecoilValue, useResetRecoilState } from "recoil";
 import userAtom from "@/atoms/user.atom";
 import Link from "next/link";
 import chatAtom, { activeChatIdAtom } from "@/atoms/chat.atom";
-import { useCreateChat, useGetChats } from "@/hook/chat.hook";
+import {
+  useCreateChat,
+  useDeleteChat,
+  useGetChats,
+  useUpdateChat,
+} from "@/hook/chat.hook";
 import { PageLoader } from "../loader";
 import Modal from "../modal";
 import { useDetectClickOutside } from "react-detect-click-outside";
@@ -144,8 +149,6 @@ export default function SignedSidebar() {
     }
   }, [isFetched, data?.data?.data?.length]); // eslint-disable-line
 
-  const [value, setValue] = useState("");
-
   const logout = () => {
     resetUser(); // removing user details from recoil
     window.location.href = "/api/auth/logout"; // Logging out of auth0
@@ -153,7 +156,7 @@ export default function SignedSidebar() {
 
   const handleSubmit = () => {
     mutate(
-      { topic: value },
+      { topic: "new chat" },
       {
         onSuccess: () => {
           refetch();
@@ -169,6 +172,45 @@ export default function SignedSidebar() {
       }
     );
   };
+
+  const [chatId, setChatid] = useState("");
+
+  const { mutate: deleteTopic } = useDeleteChat(chatId);
+  const { mutate: renameTopic } = useUpdateChat(chatId);
+
+  const [renameModal, setRenameModal] = useState(false);
+  const [deleteModal2, setDeleteModal2] = useState(false);
+
+  const [newTopic, setNewTopic] = useState("");
+
+  function rename() {
+    renameTopic(
+      { topic: newTopic },
+      {
+        onSuccess: () => {
+          toast.success("Chat renamed successfully");
+          refetch();
+        },
+        onError: (error) => {
+          toast.error(error?.response?.data?.detail ?? error?.message);
+        },
+      }
+    );
+    setRenameModal(() => false);
+  }
+
+  function deleteChat() {
+    deleteTopic(undefined, {
+      onSuccess: () => {
+        toast.success("Chat deleted successfully");
+        refetch();
+      },
+      onError: (error) => {
+        toast.error(error?.response?.data?.detail ?? error?.message);
+      },
+    });
+    setDeleteModal2(() => false);
+  }
 
   return (
     <section className="h-screen fixed dark:bg-wellgab-black-4 bg-white py-5  w-[19vw] font-plusJakartaSans z-20">
@@ -187,7 +229,7 @@ export default function SignedSidebar() {
           <button
             className="flex flex-row gap-3 item-center py-3 mb-3 hover:scale-105 transition cursor-pointer md:px-2 rounded w-full"
             title="new chat"
-            onClick={() => setOpenModal(true)}
+            onClick={() => handleSubmit()}
           >
             <EditIcon />
             <span className="flex-[2] text-left md:flex hidden">New Chat</span>
@@ -219,6 +261,8 @@ export default function SignedSidebar() {
                     chat={chat}
                     activeChat={activeChat}
                     setActiveChat={setActiveChat}
+                    setChatId={setChatid}
+                    setNewTopic={setNewTopic}
                     openMenu={openMenu}
                     ref={ref}
                     menuOpen={menuOpen}
@@ -231,6 +275,8 @@ export default function SignedSidebar() {
                       topic={chat.topic}
                       chatId={chat.id}
                       refetch={refetch}
+                      setDeleteModal={setDeleteModal2}
+                      setRenameModal={setRenameModal}
                     />
                   )}
                 </Fragment>
@@ -256,7 +302,7 @@ export default function SignedSidebar() {
           </button>
         </div>
       </div>
-      <Modal open={openModal} handleClose={handleClose}>
+      {/* <Modal open={openModal} handleClose={handleClose}>
         <div className="bg-white dark:bg-[#202124] rounded-lg w-[40vw] p-6 ">
           <p className=" text-2xl">Create Chat</p>
           <input
@@ -281,7 +327,7 @@ export default function SignedSidebar() {
             </button>
           </div>
         </div>
-      </Modal>
+      </Modal> */}
       <Modal open={settingsModal} handleClose={handleSettingsClose}>
         <div className="bg-white dark:bg-[#202124] rounded-lg w-[40vw] px-6 py-6 pb-24">
           <div className="flex flex-row justify-between w-full mb-5">
@@ -388,6 +434,66 @@ export default function SignedSidebar() {
               <button
                 onClick={handleDeleteAccount}
                 className="flex-1 py-2 px-4 rounded-md bg-wellgab-red-1 text-white"
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      </Modal>
+
+      <Modal open={renameModal} handleClose={() => setRenameModal(() => false)}>
+        <div className="bg-white dark:bg-[#202124] rounded-lg w-[40vw] p-6 ">
+          <p className=" text-2xl">Rename this chat</p>
+          <p className="text-xl font-normal text-wellgab-white-1 my-3">
+            Are you sure you want to rename this chat? This action cannot be
+            undone.
+          </p>
+          <input
+            value={newTopic}
+            className=" border-[0.3px] border-[#4C4C4C] rounded-lg p-4 w-full mt-6 outline-none"
+            placeholder="I have a headache"
+            onChange={(e) => setNewTopic(e.target.value)}
+          />
+          <div className=" pt-16 gap-x-3 flex justify-end">
+            <button
+              className=" border border-[#078] rounded-lg text-[#078] px-8 py-3 mon-hover"
+              onClick={() => setRenameModal(() => false)}
+            >
+              Cancel
+            </button>
+            <button
+              className=" border border-transparent bg-[#078] rounded-lg text-white px-8 py-3 mon-hover"
+              onClick={() => rename()}
+              disabled={newTopic.length < 1}
+            >
+              Submit
+            </button>
+          </div>
+        </div>
+      </Modal>
+      <Modal
+        open={deleteModal2}
+        handleClose={() => setDeleteModal2(() => false)}
+      >
+        <div className="bg-white dark:bg-[#202124] rounded-lg w-[40vw] px-6 py-6 pb-4">
+          <div className="flex flex-col gap-4">
+            <h1 className="text-2xl font-bold">
+              Do you want to delete this chat?
+            </h1>
+            <p className="text-xl font-normal text-wellgab-white-1">
+              {`This action will delete ${newTopic} and it can't be restored after.`}
+            </p>
+            <div className="flex flex-row gap-4 justify-end pt-4">
+              <button
+                onClick={() => setDeleteModal2(() => false)}
+                className="py-2 px-6 rounded-md bg-wellgab-green text-white"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => deleteChat()}
+                className="py-2 px-6 rounded-md bg-wellgab-red-1 text-white"
               >
                 Delete
               </button>

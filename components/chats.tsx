@@ -13,6 +13,8 @@ interface ChatsProps {
   ref: React.MutableRefObject<null>;
   menuOpen: boolean;
   setMenuOpen: (open: boolean) => void;
+  setNewTopic: (id: string) => void;
+  setChatId: (id: string) => void;
 }
 function ChatsBody({
   chat,
@@ -20,6 +22,8 @@ function ChatsBody({
   setActiveChat,
   openMenu,
   ref,
+  setNewTopic,
+  setChatId,
 }: ChatsProps) {
   return (
     <div className="relative">
@@ -29,10 +33,19 @@ function ChatsBody({
             ? "bg-[#078] text-white [&_path]:stroke-white "
             : ""
         }`}
-        onClick={() => setActiveChat(chat.id)}
+        onClick={() => {
+          setActiveChat(chat.id);
+        }}
       >
         <span className="flex-[2] truncate">{chat.topic}</span>
-        <div ref={ref} onClick={(e) => openMenu(e)} className="">
+        <div
+          ref={ref}
+          onClick={(e) => {
+            setChatId(chat.id), setNewTopic(chat.topic);
+            openMenu(e);
+          }}
+          className=""
+        >
           <IconContext.Provider value={{ size: "1.8em" }}>
             <BsThreeDotsVertical />
           </IconContext.Provider>
