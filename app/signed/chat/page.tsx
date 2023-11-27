@@ -7,13 +7,9 @@ import { MessageLoader, PageLoader } from "@/components/loader";
 import TypingSpan from "@/components/typingSpan";
 import withAuth from "@/hocs/withAuth.hoc";
 import {
-  useCreateChat,
   useGetChat,
-  useGetChats,
   useSendChat,
 } from "@/hook/chat.hook";
-import { useSocket } from "@/hook/socket.hook";
-import userAtom from "@/atoms/user.atom";
 
 import React, { useEffect, useRef, useState } from "react";
 import { useRecoilValue } from "recoil";

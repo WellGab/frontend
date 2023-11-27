@@ -6,6 +6,8 @@ import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
 import { toast } from "react-hot-toast";
+import { IconContext } from "react-icons";
+import { FaMicrophoneAltSlash, FaMicrophone } from "react-icons/fa";
 
 interface ChatInputProps {
   onSend: () => void;
@@ -21,7 +23,7 @@ export const ChatInput = (
   > &
     ChatInputProps,
 ) => {
-  const { onSend, sendDisabled, isListening, setListening, ...rest } = props;
+  const { onSend, sendDisabled, ...rest } = props;
   const [divActive, setDivActive] = useState(false);
 
   const {
@@ -49,15 +51,11 @@ export const ChatInput = (
     if (!listening) {
       // resetTranscript();
       SpeechRecognition.startListening();
-      setListening(true);
     } else {
       // resetTranscript();
       SpeechRecognition.stopListening();
-      setListening(false);
     }
   }
-
-  console.log("the transcript: ", transcript);
 
   return (
     <form className={`flex w-full gap-x-2 items-center`} onSubmit={onSubmit}>
@@ -79,7 +77,19 @@ export const ChatInput = (
           }}
         />
         <button type="button" onClick={() => handleListening()} className="">
-          {listening ? <MicIcon /> : "mic"}
+          {!listening ? (
+            <IconContext.Provider
+              value={{ size: "1.5em", className: "md:flex hidden" }}
+            >
+              <FaMicrophone />
+            </IconContext.Provider>
+          ) : (
+            <IconContext.Provider
+              value={{ size: "1.5em", className: "md:flex hidden" }}
+            >
+              <FaMicrophoneAltSlash />
+            </IconContext.Provider>
+          )}
         </button>
       </div>
       <button type="submit" disabled={props.sendDisabled}>
