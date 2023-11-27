@@ -90,8 +90,10 @@ export default function SignedSidebar() {
   }
 
   function handleDeleteAccount() {
-    // confirm delete, trigger conformation modal
-    // modal to take password
+    if (password.length < 1) {
+      toast.error("Please enter your password");
+      return;
+    }
     deleteAccount(
       {
         password: password,

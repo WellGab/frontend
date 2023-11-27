@@ -5,13 +5,11 @@ import Google from "@/assets/svgs/Google svg.svg";
 import Microsoft from "@/assets/svgs/Microsoft svg.svg";
 import Apple from "@/assets/svgs/Apple svg.svg";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import { socials } from "@/utils/constants";
 import { useEffect, useState } from "react";
 import { signupSchema } from "@/utils/validation/auth.zod";
 import Alert from "@/components/alert";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { useUser } from "@auth0/nextjs-auth0/client";
 import { useSignup } from "@/hook/auth.hook";
 import { PageLoader } from "@/components/loader";
 // import type { Metadata } from "next";
@@ -22,9 +20,7 @@ import { PageLoader } from "@/components/loader";
 // };
 
 export default function Page() {
-  const { user, error, isLoading: auth0Loading } = useUser();
   const { mutate, isLoading } = useSignup();
-  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [show, setShow] = useState(false);
@@ -48,7 +44,7 @@ export default function Page() {
 
     if (!validated.success) {
       setShow(true);
-      setMessage(validated.error.message);
+      setMessage(validated.error.errors[0].message);
       return;
     }
 

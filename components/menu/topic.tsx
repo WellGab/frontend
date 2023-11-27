@@ -27,6 +27,53 @@ export default function Topic({
     onTriggered: () => onClose(),
   });
 
+  const [renameModal, setRenameModal] = useState(false);
+  const [deleteModal, setDeleteModal] = useState(false);
+
+  const [newTopic, setNewTopic] = useState(topic);
+
+  function rename() {
+    if (newTopic === topic) {
+      toast.error("Topic is the same");
+      return;
+    }
+    if (newTopic === "") {
+      toast.error("Topic cannot be empty");
+      return;
+    }
+    if (newTopic.length > 20) {
+      toast.error("Topic cannot be more than 20 characters");
+      return;
+    }
+
+    renameTopic(
+      { topic: newTopic },
+      {
+        onSuccess: () => {
+          toast.success("Chat renamed successfully");
+          refetch();
+        },
+        onError: (error) => {
+          toast.error(error?.response?.data?.detail ?? error?.message);
+        },
+      },
+    );
+    onClose();
+  }
+
+  function deleteChat() {
+    deleteTopic(undefined, {
+      onSuccess: () => {
+        toast.success("Chat deleted successfully");
+        refetch();
+      },
+      onError: (error) => {
+        toast.error(error?.response?.data?.detail ?? error?.message);
+      },
+    });
+    onClose();
+  }
+
   return (
     <>
       <div

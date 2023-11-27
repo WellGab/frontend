@@ -14,9 +14,6 @@ dependencies:
   '@t3-oss/env-nextjs':
     specifier: ^0.7.1
     version: 0.7.1(typescript@5.3.2)(zod@3.22.4)
-  '@types/react-speech-recognition':
-    specifier: ^3.9.5
-    version: 3.9.5
   axios:
     specifier: ^1.6.2
     version: 1.6.2
@@ -65,6 +62,9 @@ dependencies:
   recoil-persist:
     specifier: ^5.1.0
     version: 5.1.0(recoil@0.7.7)
+  regenerator-runtime:
+    specifier: ^0.13.11
+    version: 0.13.11
   socket.io-client:
     specifier: ^4.7.2
     version: 4.7.2
@@ -88,6 +88,12 @@ devDependencies:
   '@types/react-dom':
     specifier: ^18
     version: 18.2.16
+  '@types/react-speech-recognition':
+    specifier: ^3.9.5
+    version: 3.9.5
+  '@types/regenerator-runtime':
+    specifier: ^0.13.5
+    version: 0.13.5
   '@types/uuid':
     specifier: ^9.0.7
     version: 9.0.7
@@ -103,6 +109,9 @@ devDependencies:
   postcss:
     specifier: ^8
     version: 8.4.31
+  runtime:
+    specifier: link:@types/regenerator-runtime/runtime
+    version: link:@types/regenerator-runtime/runtime
   tailwindcss:
     specifier: ^3
     version: 3.3.5
@@ -1937,7 +1946,7 @@ packages:
 
   /@types/dom-speech-recognition@0.0.4:
     resolution: {integrity: sha512-zf2GwV/G6TdaLwpLDcGTIkHnXf8JEf/viMux+khqKQKDa8/8BAUtXXZS563GnvJ4Fg0PBLGAaFf2GekEVSZ6GQ==}
-    dev: false
+    dev: true
 
   /@types/json5@0.0.29:
     resolution: {integrity: sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==}
@@ -1967,7 +1976,7 @@ packages:
     resolution: {integrity: sha512-m3Sg3Xtj/YcEUu+nLPGwI6oq1wcSblsuyAmXgBfW6Nprfmtl+A+kH4ruPzzFKnFkq6WmmRxdsLvt0nLRAAJtBw==}
     dependencies:
       '@types/dom-speech-recognition': 0.0.4
-    dev: false
+    dev: true
 
   /@types/react@18.2.38:
     resolution: {integrity: sha512-cBBXHzuPtQK6wNthuVMV6IjHAFkdl/FOPFIlkd81/Cd1+IqkHu/A+w4g43kaQQoYHik/ruaQBDL72HyCy1vuMw==}
@@ -1975,6 +1984,10 @@ packages:
       '@types/prop-types': 15.7.11
       '@types/scheduler': 0.16.7
       csstype: 3.1.2
+    dev: true
+
+  /@types/regenerator-runtime@0.13.5:
+    resolution: {integrity: sha512-kuQTuRQB2RafkNk1qimK3zu4KSfy6z47diYGXVDcFcAZ3pVTR25CXiSb3adKry+onx2BBB9DBXxxLdbuglx5mw==}
     dev: true
 
   /@types/scheduler@0.16.7:
@@ -4471,6 +4484,10 @@ packages:
 
   /regenerate@1.4.2:
     resolution: {integrity: sha512-zrceR/XhGYU/d/opr2EKO7aRHUeiBI8qjtfHqADTwZd6Szfy16la6kqD0MIUs5z5hx6AaKa+PixpPrR289+I0A==}
+    dev: false
+
+  /regenerator-runtime@0.13.11:
+    resolution: {integrity: sha512-kY1AZVr2Ra+t+piVaJ4gxaFaReZVH40AKNo7UCX6W+dEwBo/2oZJzqfuN1qLq1oL45o56cPaTXELwrTh8Fpggg==}
     dev: false
 
   /regenerator-runtime@0.14.0:

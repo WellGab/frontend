@@ -34,7 +34,7 @@ export default function Alert({
   }, [show]);
 
   const alertType = {
-    warning: "bg-yellow-100 text-yellow-900",
+    warning: "bg-gray-200 text-yellow-900",
     success: "bg-green-100 text-green-900",
     danger: "bg-red-100 text-red-900",
     info: "bg-blue-100 text-blue-900",
