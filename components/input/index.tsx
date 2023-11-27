@@ -52,6 +52,7 @@ export const ChatInput = (
     } else {
       // resetTranscript();
       SpeechRecognition.stopListening();
+      console.log("What's the transcript", transcript)
     }
   }
 
