@@ -82,7 +82,7 @@ function Page() {
           messages.map((message, index) => (
             <div key={index}>
               {message.gpt ? (
-                <div className="w-[80%]">
+                <div className="md:w-[80%] w-[95%]">
                   <p className=" text-xs font-medium">
                     WellGab Health Assistant
                   </p>
