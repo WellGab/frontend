@@ -46,18 +46,18 @@ const NavBar = ({ showLinks }: { showLinks: boolean }) => {
       {showLinks ? (
         <div
           className={`absolute top-full w-full lg:hidden z-10 transition-[max-height] duration-300 ease-out overflow-hidden text-center  bg-white dark:bg-[#0F0F0F]  ${
-            dropDown ? "max-h-44" : "max-h-0"
+            dropDown ? " max-h-60 md:max-h-44" : "max-h-0"
           }`}
         >
           <div className="space-y-5 py-5 w-full">
-            <a href="#experiencing">
+            <a href="#experiencing" className="block">
               <p>Features</p>
             </a>
 
-            <a href="#how-it-works">
+            <a href="#how-it-works" className="block">
               <p>How it works</p>
             </a>
-            <Link href={"/auth/signup"}>
+            <Link href={"/auth/signup"} className="block">
               <button className="bg-[#078] font-sans text-sm xl:text-lg rounded-lg px-6 text-white py-3">
                 Get Started
               </button>

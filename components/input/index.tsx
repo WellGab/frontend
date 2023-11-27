@@ -12,6 +12,7 @@ interface ChatInputProps {
   onSend: () => void;
   sendDisabled?: boolean;
   setInput?: React.Dispatch<React.SetStateAction<string>>;
+  onSendWithValue: (value: string) => void;
 }
 
 export const ChatInput = (
@@ -41,7 +42,10 @@ export const ChatInput = (
       toast.error("Your browser does not support speech recognition");
       return;
     }
-    props.setInput?.(transcript);
+    if (transcript) {
+      props.onSendWithValue(transcript);
+    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [listening]);
 

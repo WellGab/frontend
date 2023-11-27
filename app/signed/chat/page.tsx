@@ -25,12 +25,19 @@ function Page() {
 
   function onSend() {
     if (value.length < 1) {
-      toast.error("Please enter a message");
+      return toast.error("Please enter a message");
     }
-    setMessages((prev) => [...prev, { message: value, gpt: false }]);
+    onSendWithValue(value);
+  }
+
+  function onSendWithValue(val: string) {
+    if (val.length < 1) {
+      return toast.error("Please enter a message");
+    }
+    setMessages((prev) => [...prev, { message: val, gpt: false }]);
     setValue("");
     mutate(
-      { message: value },
+      { message: val },
       {
         onSuccess: (data) => {
           setMessages((prev) => [
@@ -73,7 +80,7 @@ function Page() {
   return (
     <div className="md:px-14 px-2 pt-[10vh]">
       {isFetching ? <PageLoader /> : null}
-      <div className="h-[80vh] overflow-y-scroll  py-4">
+      <div className="h-[80vh] overflow-y-scroll  py-4 space-y-6">
         {messages.length > 0 ? (
           messages.map((message, index) => (
             <div key={index}>
@@ -122,7 +129,8 @@ function Page() {
         value={value}
         onChange={(e) => setValue(e.target.value)}
         setInput={setValue}
-        // sendDisabled={false}
+        sendDisabled={isLoading}
+        onSendWithValue={onSendWithValue}
       />
     </div>
   );
