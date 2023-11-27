@@ -6,7 +6,7 @@ import Link from "next/link";
 
 const Hero = () => {
   return (
-    <section className=" py-[100px] bg-[#F5FAFA] dark:bg-[#202124] h-[600px] md:h-[800px] lg:h-[900px] xl:h-[900px] 2xl:h-[1000px] text-center relative font-plusJakartaSans">
+    <section className=" py-[100px] bg-[#F5FAFA] dark:bg-[#202124] h-[150vw] md:h-[90vw] lg:h-[75vw] xl:h-[65vw] 2xl:h-[55vw] text-center relative font-plusJakartaSans">
       <div className=" text-4xl md:text-5xl lg:text-6xl xl:text-[64px] font-medium  text-center">
         <h1 className=" flex items-center gap-x-[80px] md:gap-x-[100px] lg:gap-x-[139px] justify-center  relative w-max mx-auto">
           <span className=" dark:text-transparent bg-clip-text bg-hero-gradient">
@@ -40,7 +40,11 @@ const Hero = () => {
       </Link>
 
       <div className=" mx-auto flex justify-center -bottom-14  absolute w-full">
-        <Image src={HeroImg} alt="hero image" className="w-[80%] xl:w-[50%] " />
+        <Image
+          src={HeroImg}
+          alt="hero image"
+          className="w-[80%] md:w-[70%] lg:w-[60%] xl:w-[60%]  2xl:w-[50%]"
+        />
       </div>
     </section>
   );
