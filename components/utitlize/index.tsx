@@ -2,6 +2,7 @@ import React from "react";
 import robot from "../../assets/imgs/robot.png";
 import Image from "next/image";
 import Link from "next/link";
+import { TryWellGab } from "../button";
 
 const Utilize = () => {
   return (
@@ -10,7 +11,7 @@ const Utilize = () => {
         <Image
           src={robot}
           alt="robot"
-          className="absolute w-[160px] md:w-[180px] xl:w-[241px] -left-[24px] md:left-[16px] xl:left-[30px] -top-[67px] "
+          className="absolute w-[160px] md:w-[180px] xl:w-[241px] -left-[60px] md:left-[16px] xl:left-[30px] -top-[67px] "
         />
         <div className=" flex flex-col md:flex-row items-center justify-between">
           <div className=" text-white">
@@ -22,11 +23,7 @@ const Utilize = () => {
               insights to your symptoms and diagnosis.
             </p>
           </div>
-          <Link href={"/chat"}>
-            <button className=" mt-12 bg-[#078] w-[320px] h-[60px] rounded-lg text-lg font-sans text-[#F1F3F6] mon-hover">
-              TRY WELLGAB FOR FREE
-            </button>
-          </Link>
+          <TryWellGab />
         </div>
       </div>
     </section>
