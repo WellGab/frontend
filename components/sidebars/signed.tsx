@@ -233,7 +233,7 @@ export default function SignedSidebar() {
         </div>
       </Link>
 
-      <div className="flex flex-col items-start justify-between h-[90%] px-4 w-max">
+      <div className="flex flex-col items-start justify-between h-[90%] px-4 w-full">
         <div className="pt-14 w-full">
           <button
             className="flex flex-row gap-3 item-center py-3 mb-3 hover:scale-105 transition cursor-pointer md:px-2 rounded w-full"
@@ -264,7 +264,10 @@ export default function SignedSidebar() {
               History
             </span>
             <IconContext.Provider
-              value={{ size: "1.8em", className: "md:flex hidden" }}
+              value={{
+                size: "1.8em",
+                className: `md:flex justify-end ${sidebarOpen ? "" : "hidden"}`,
+              }}
             >
               {!showHistory ? <GoChevronRight /> : <GoChevronDown />}
             </IconContext.Provider>
