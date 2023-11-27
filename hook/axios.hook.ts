@@ -1,6 +1,7 @@
 import userAtom from "@/atoms/user.atom";
 import { API_URL } from "@/http/fetcher";
 import axios from "axios";
+import { useEffect } from "react";
 import { useRecoilValue } from "recoil";
 
 export const useAuthAxios = () => {
@@ -15,13 +16,21 @@ export const useAuthAxios = () => {
   axiosInstance.interceptors.response.use(
     (response) => response,
     (error) => {
-      if (error.response.status === 401) {
+      if (error.response.status === 401 || error.response.status === 403) {
+        // redirect to login page
+        window.location.href = "/auth/login";
+        return Promise.reject(error);
+      }
+      if (
+        (error.response.status =
+          400 && error.response.data.detail === "user not found")
+      ) {
         // redirect to login page
         window.location.href = "/auth/login";
         return Promise.reject(error);
       }
       return Promise.reject(error);
-    }
+    },
   );
 
   axiosInstance.interceptors.request.use(
@@ -33,8 +42,10 @@ export const useAuthAxios = () => {
     },
     (error) => {
       Promise.reject(error);
-    }
+    },
   );
+
+  useEffect(() => {}, [user]);
 
   return axiosInstance;
 };
