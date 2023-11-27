@@ -219,7 +219,7 @@ export default function SignedSidebar() {
 
   return (
     <section
-      className={`h-screen fixed dark:bg-wellgab-black-4 bg-white py-5  md:w-[19vw] ${
+      className={`h-screen fixed dark:bg-wellgab-black-4 bg-white py-5 md:w-[19vw] ${
         sidebarOpen ? "w-[250px]" : "w-[50px]"
       } font-plusJakartaSans z-20`}
     >
@@ -233,7 +233,7 @@ export default function SignedSidebar() {
         </div>
       </Link>
 
-      <div className="flex flex-col items-start justify-between h-[90%] px-4">
+      <div className="flex flex-col items-start justify-between h-[90%] px-4 w-max">
         <div className="pt-14 w-full">
           <button
             className="flex flex-row gap-3 item-center py-3 mb-3 hover:scale-105 transition cursor-pointer md:px-2 rounded w-full"
